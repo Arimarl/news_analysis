@@ -47,6 +47,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, JavascriptException
+from selenium.common.exceptions import StaleElementReferenceException
 from selenium_stealth import stealth
 
 # ── OCR ────────────────────────────────────────────────────────────────────────
@@ -100,6 +101,7 @@ def launch_browser() -> uc.Chrome:
         "download.default_directory": str(RAW_PDF),
         "download.prompt_for_download": False,
         "download.directory_upgrade": True,
+        "plugins.always_open_pdf_externally": True,  # force Chrome to download PDFs
         "safebrowsing.enabled": True,
     }
     opts.add_experimental_option("prefs", prefs)
@@ -164,6 +166,7 @@ def wait_file(tmpdir: Path, suffix: str, timeout=30):
 @with_wait
 def download_current_page_pdf(driver: uc.Chrome) -> Path | None:
     """Trigger Print/Download ▸ Entire Page ▸ Save as PDF* and wait for file."""
+    handles_before = set(driver.window_handles)
     # 1. Click the top‑bar print icon (id='btn-print')
     btn = WebDriverWait(driver, 8).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "button#btn-print")))
@@ -176,29 +179,40 @@ def download_current_page_pdf(driver: uc.Chrome) -> Path | None:
     link = entire.find_element(By.XPATH, "./ancestor::a")
     driver.execute_script("arguments[0].click();", link)
 
-    # 3. Click Save as PDF* (button.btn.btn-outline-light.border-primary.border.pdf)
-    save_pdf = WebDriverWait(driver, 8).until(
-        EC.element_to_be_clickable((By.CSS_SELECTOR,
-                                    "button.btn.btn-outline-light.border-primary.border.pdf")))
-    save_pdf.click()
+    # 3. Wait for the new preview tab, switch to it, then click **Save as PDF***
+    WebDriverWait(driver, 12).until(
+        EC.number_of_windows_to_be(len(handles_before) + 1)
+    )
+    new_handle = next(h for h in driver.window_handles if h not in handles_before)
+    driver.switch_to.window(new_handle)
 
-    if pdf := wait_file(RAW_PDF, ".pdf", timeout=40):
+    save_pdf = WebDriverWait(driver, 15).until(
+        EC.element_to_be_clickable(
+            (By.CSS_SELECTOR,
+             "button.btn.btn-outline-light.border-primary.pdf, button.pdf"))
+    )
+    driver.execute_script("arguments[0].click();", save_pdf)
+
+    pdf = wait_file(RAW_PDF, ".pdf", timeout=90)
+    # close preview tab and return to article viewer
+    driver.close()
+    driver.switch_to.window(list(handles_before)[-1])
+
+    if pdf:
         logger.info(f"Downloaded {pdf.name}")
-        return pdf
-
-# ── MAIN ROUTINE ─────────────────────────────────────────────────────────────
+    return pdf
 
 @with_wait
 def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
     records: list[dict] = []
     for row in tqdm(df_targets.itertuples(), total=len(df_targets)):
-        main_window = driver.current_window_handle   # remember search‑results tab
         search_url = (
             "https://www.newspapers.com/search/results/?query="
             f"{row.q}&state={row.state_to_query}"
         )
         driver.get(search_url)
-        time.sleep(1.5)
+        # give React a moment to render the first result thumbnails before we start waiting
+        time.sleep(1.2)
 
         # ── wait for *a real* clickable result link ────────────────────────
         LINK_SEL = (
@@ -215,11 +229,23 @@ def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
             logger.warning(f"No results for {row.q}")
             continue
 
-        cards = [first_link] + driver.find_elements(By.CSS_SELECTOR, LINK_SEL)[1:5]
+        if first_link is None:
+            # the helper may have swallowed a TimeoutException – skip safely
+            logger.warning(f"No clickable results for {row.q}")
+            continue
 
-        for card in cards:
-            card.click()                                   # open in same tab
-            driver.execute_script("window.scrollBy(0,1)")  # poke lazy loader
+        # ----- collect result links first to avoid stale‑element issues -----
+        elements = [first_link] + [el for el in driver.find_elements(By.CSS_SELECTOR, LINK_SEL)[1:5] if el]
+        urls = [el.get_attribute("href") for el in elements if el.get_attribute("href")]
+
+        if not urls:
+            logger.warning(f"Collected zero URLs for {row.q} – skipping target")
+            continue
+
+        # iterate over the captured URLs
+        for url in urls:
+            driver.get(url)
+            driver.execute_script("window.scrollBy(0, 1)")  # poke lazy loader
 
             # optional: refresh if pay‑wall / upsell overlay injects an iframe
             if driver.find_elements(By.CSS_SELECTOR, "iframe[src*='offer']"):
@@ -227,7 +253,12 @@ def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
                 driver.refresh()
 
             try:
-                WebDriverWait(driver, 15).until(
+                # ignore DOM mutations that detach the element while we wait
+                WebDriverWait(
+                    driver,
+                    15,
+                    ignored_exceptions=(StaleElementReferenceException,)
+                ).until(
                     EC.element_to_be_clickable(
                         (By.CSS_SELECTOR,
                          "button#btn-print, button[aria-label*='Print']"))
@@ -235,14 +266,22 @@ def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
             except TimeoutException:
                 logger.warning("Article viewer did not load – skipping card")
                 driver.back()
-                WebDriverWait(driver, 10).until(
+                WebDriverWait(
+                    driver,
+                    10,
+                    ignored_exceptions=(StaleElementReferenceException,)
+                ).until(
                     EC.element_to_be_clickable((By.CSS_SELECTOR, LINK_SEL)))
                 continue
 
             pdf_path = download_current_page_pdf(driver)
             if not pdf_path:
                 driver.back()
-                WebDriverWait(driver, 10).until(
+                WebDriverWait(
+                    driver,
+                    10,
+                    ignored_exceptions=(StaleElementReferenceException,)
+                ).until(
                     EC.element_to_be_clickable((By.CSS_SELECTOR, LINK_SEL)))
                 continue
 
@@ -250,7 +289,11 @@ def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
             if not paragraph:
                 logger.warning(f"Empty OCR for {pdf_path.name}")
                 driver.back()
-                WebDriverWait(driver, 10).until(
+                WebDriverWait(
+                    driver,
+                    10,
+                    ignored_exceptions=(StaleElementReferenceException,)
+                ).until(
                     EC.element_to_be_clickable((By.CSS_SELECTOR, LINK_SEL)))
                 continue
 
@@ -263,7 +306,11 @@ def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
             })
 
             driver.back()  # back to search results
-            WebDriverWait(driver, 10).until(
+            WebDriverWait(
+                driver,
+                10,
+                ignored_exceptions=(StaleElementReferenceException,)
+            ).until(
                 EC.element_to_be_clickable((By.CSS_SELECTOR, LINK_SEL)))
             time.sleep(np.random.uniform(0.8, 1.6))
 

@@ -1,0 +1,10 @@
+2025-04-23 15:22:58.793 | INFO     | __main__:launch_browser:119 - Chrome launched with persistent profile – assuming already logged in.
+2025-04-23 15:23:11.815 | WARNING  | __main__:_inner:87 - Timeout inside download_current_page_pdf
+2025-04-23 15:23:24.968 | WARNING  | __main__:_inner:87 - Timeout inside download_current_page_pdf
+2025-04-23 15:23:34.663 | WARNING  | __main__:_inner:87 - Timeout inside download_current_page_pdf
+2025-04-23 15:23:44.864 | WARNING  | __main__:_inner:87 - Timeout inside download_current_page_pdf
+2025-04-23 15:23:54.948 | WARNING  | __main__:_inner:87 - Timeout inside download_current_page_pdf
+2025-04-23 15:24:10.393 | WARNING  | __main__:_inner:87 - Timeout inside download_current_page_pdf
+2025-04-23 15:24:20.249 | WARNING  | __main__:_inner:87 - Timeout inside download_current_page_pdf
+2025-04-23 15:24:30.401 | WARNING  | __main__:_inner:87 - Timeout inside download_current_page_pdf
+2025-04-23 15:24:40.002 | WARNING  | __main__:_inner:87 - Timeout inside download_current_page_pdf
