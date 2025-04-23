@@ -1,0 +1,25 @@
+2025-04-22 15:48:38.348 | INFO     | __main__:login:119 - Logging in to Newspapers.com…
+2025-04-22 15:48:58.618 | ERROR    | __main__:launch_browser:111 - Login failed: Message: 
+Stacktrace:
+0   undetected_chromedriver             0x0000000102ee5448 undetected_chromedriver + 6149192
+1   undetected_chromedriver             0x0000000102edcb0a undetected_chromedriver + 6114058
+2   undetected_chromedriver             0x000000010296de80 undetected_chromedriver + 417408
+3   undetected_chromedriver             0x00000001029bf587 undetected_chromedriver + 750983
+4   undetected_chromedriver             0x00000001029bf7a1 undetected_chromedriver + 751521
+5   undetected_chromedriver             0x0000000102a0f784 undetected_chromedriver + 1079172
+6   undetected_chromedriver             0x00000001029e57bd undetected_chromedriver + 907197
+7   undetected_chromedriver             0x0000000102a0caca undetected_chromedriver + 1067722
+8   undetected_chromedriver             0x00000001029e5563 undetected_chromedriver + 906595
+9   undetected_chromedriver             0x00000001029b1955 undetected_chromedriver + 694613
+10  undetected_chromedriver             0x00000001029b25b1 undetected_chromedriver + 697777
+11  undetected_chromedriver             0x0000000102ea2f00 undetected_chromedriver + 5877504
+12  undetected_chromedriver             0x0000000102ea6df1 undetected_chromedriver + 5893617
+13  undetected_chromedriver             0x0000000102e7d344 undetected_chromedriver + 5722948
+14  undetected_chromedriver             0x0000000102ea780b undetected_chromedriver + 5896203
+15  undetected_chromedriver             0x0000000102e6bac4 undetected_chromedriver + 5651140
+16  undetected_chromedriver             0x0000000102eca918 undetected_chromedriver + 6039832
+17  undetected_chromedriver             0x0000000102ecaae0 undetected_chromedriver + 6040288
+18  undetected_chromedriver             0x0000000102edc6d1 undetected_chromedriver + 6112977
+19  libsystem_pthread.dylib             0x00007ff8185f4df1 _pthread_start + 99
+20  libsystem_pthread.dylib             0x00007ff8185f0857 thread_start + 15
+
