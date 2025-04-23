@@ -1,0 +1,10 @@
+2025-04-23 14:41:40.586 | INFO     | __main__:launch_browser:117 - Chrome launched with persistent profile – assuming already logged in.
+2025-04-23 14:41:43.065 | WARNING  | __main__:scrape_and_ocr:206 - No results for "Walter Newton"
+2025-04-23 14:41:45.615 | WARNING  | __main__:scrape_and_ocr:206 - No results for "Peter J. Otey"
+2025-04-23 14:41:48.266 | WARNING  | __main__:scrape_and_ocr:206 - No results for "Halvor Steenerson"
+2025-04-23 14:41:50.620 | WARNING  | __main__:scrape_and_ocr:206 - No results for "Patrick H. Kelley"
+2025-04-23 14:41:53.189 | WARNING  | __main__:scrape_and_ocr:206 - No results for "Carl R. Chindblom"
+2025-04-23 14:41:55.467 | WARNING  | __main__:scrape_and_ocr:206 - No results for "George G. Symes"
+2025-04-23 14:41:57.879 | WARNING  | __main__:scrape_and_ocr:206 - No results for "John C. Kunkel"
+2025-04-23 14:42:00.057 | WARNING  | __main__:scrape_and_ocr:206 - No results for "John J. Fitzgerald"
+2025-04-23 14:42:02.299 | WARNING  | __main__:scrape_and_ocr:206 - No results for "George W. Rauch"

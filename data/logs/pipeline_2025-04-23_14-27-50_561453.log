@@ -1,0 +1,6 @@
+2025-04-23 14:27:53.101 | INFO     | __main__:launch_browser:117 - Chrome launched with persistent profile – assuming already logged in.
+2025-04-23 14:27:55.457 | WARNING  | __main__:scrape_and_ocr:201 - No results for "Walter Newton"
+2025-04-23 14:27:57.806 | WARNING  | __main__:scrape_and_ocr:201 - No results for "Peter J. Otey"
+2025-04-23 14:28:00.361 | WARNING  | __main__:scrape_and_ocr:201 - No results for "Halvor Steenerson"
+2025-04-23 14:28:02.616 | WARNING  | __main__:scrape_and_ocr:201 - No results for "Patrick H. Kelley"
+2025-04-23 14:28:04.969 | WARNING  | __main__:scrape_and_ocr:201 - No results for "Carl R. Chindblom"
