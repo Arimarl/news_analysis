@@ -1,0 +1,251 @@
+2025-04-23 15:51:12.438 | INFO     | __main__:launch_browser:119 - Chrome launched with persistent profile – assuming already logged in.
+2025-04-23 15:51:18.846 | WARNING  | __main__:download_current_page_pdf:210 - Download failed: Message: no such element: Unable to locate element: {"method":"css selector","selector":"[id="entireP"]"}
+  (Session info: chrome=135.0.7049.114); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   undetected_chromedriver             0x00000001031d9438 undetected_chromedriver + 6149176
+1   undetected_chromedriver             0x00000001031d0afa undetected_chromedriver + 6114042
+2   undetected_chromedriver             0x0000000102c61e80 undetected_chromedriver + 417408
+3   undetected_chromedriver             0x0000000102cb3587 undetected_chromedriver + 750983
+4   undetected_chromedriver             0x0000000102cb37a1 undetected_chromedriver + 751521
+5   undetected_chromedriver             0x0000000102d03784 undetected_chromedriver + 1079172
+6   undetected_chromedriver             0x0000000102cd97bd undetected_chromedriver + 907197
+7   undetected_chromedriver             0x0000000102d00aca undetected_chromedriver + 1067722
+8   undetected_chromedriver             0x0000000102cd9563 undetected_chromedriver + 906595
+9   undetected_chromedriver             0x0000000102ca5955 undetected_chromedriver + 694613
+10  undetected_chromedriver             0x0000000102ca65b1 undetected_chromedriver + 697777
+11  undetected_chromedriver             0x0000000103196ef0 undetected_chromedriver + 5877488
+12  undetected_chromedriver             0x000000010319ade1 undetected_chromedriver + 5893601
+13  undetected_chromedriver             0x0000000103171334 undetected_chromedriver + 5722932
+14  undetected_chromedriver             0x000000010319b7fb undetected_chromedriver + 5896187
+15  undetected_chromedriver             0x000000010315fab4 undetected_chromedriver + 5651124
+16  undetected_chromedriver             0x00000001031be908 undetected_chromedriver + 6039816
+17  undetected_chromedriver             0x00000001031bead0 undetected_chromedriver + 6040272
+18  undetected_chromedriver             0x00000001031d06c1 undetected_chromedriver + 6112961
+19  libsystem_pthread.dylib             0x00007ff809800df1 _pthread_start + 99
+20  libsystem_pthread.dylib             0x00007ff8097fc857 thread_start + 15
+
+2025-04-23 15:51:26.388 | WARNING  | __main__:download_current_page_pdf:210 - Download failed: Message: no such element: Unable to locate element: {"method":"css selector","selector":"[id="entireP"]"}
+  (Session info: chrome=135.0.7049.114); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   undetected_chromedriver             0x00000001031d9438 undetected_chromedriver + 6149176
+1   undetected_chromedriver             0x00000001031d0afa undetected_chromedriver + 6114042
+2   undetected_chromedriver             0x0000000102c61e80 undetected_chromedriver + 417408
+3   undetected_chromedriver             0x0000000102cb3587 undetected_chromedriver + 750983
+4   undetected_chromedriver             0x0000000102cb37a1 undetected_chromedriver + 751521
+5   undetected_chromedriver             0x0000000102d03784 undetected_chromedriver + 1079172
+6   undetected_chromedriver             0x0000000102cd97bd undetected_chromedriver + 907197
+7   undetected_chromedriver             0x0000000102d00aca undetected_chromedriver + 1067722
+8   undetected_chromedriver             0x0000000102cd9563 undetected_chromedriver + 906595
+9   undetected_chromedriver             0x0000000102ca5955 undetected_chromedriver + 694613
+10  undetected_chromedriver             0x0000000102ca65b1 undetected_chromedriver + 697777
+11  undetected_chromedriver             0x0000000103196ef0 undetected_chromedriver + 5877488
+12  undetected_chromedriver             0x000000010319ade1 undetected_chromedriver + 5893601
+13  undetected_chromedriver             0x0000000103171334 undetected_chromedriver + 5722932
+14  undetected_chromedriver             0x000000010319b7fb undetected_chromedriver + 5896187
+15  undetected_chromedriver             0x000000010315fab4 undetected_chromedriver + 5651124
+16  undetected_chromedriver             0x00000001031be908 undetected_chromedriver + 6039816
+17  undetected_chromedriver             0x00000001031bead0 undetected_chromedriver + 6040272
+18  undetected_chromedriver             0x00000001031d06c1 undetected_chromedriver + 6112961
+19  libsystem_pthread.dylib             0x00007ff809800df1 _pthread_start + 99
+20  libsystem_pthread.dylib             0x00007ff8097fc857 thread_start + 15
+
+2025-04-23 15:51:30.393 | WARNING  | __main__:download_current_page_pdf:210 - Download failed: Message: no such element: Unable to locate element: {"method":"css selector","selector":"[id="entireP"]"}
+  (Session info: chrome=135.0.7049.114); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   undetected_chromedriver             0x00000001031d9438 undetected_chromedriver + 6149176
+1   undetected_chromedriver             0x00000001031d0afa undetected_chromedriver + 6114042
+2   undetected_chromedriver             0x0000000102c61e80 undetected_chromedriver + 417408
+3   undetected_chromedriver             0x0000000102cb3587 undetected_chromedriver + 750983
+4   undetected_chromedriver             0x0000000102cb37a1 undetected_chromedriver + 751521
+5   undetected_chromedriver             0x0000000102d03784 undetected_chromedriver + 1079172
+6   undetected_chromedriver             0x0000000102cd97bd undetected_chromedriver + 907197
+7   undetected_chromedriver             0x0000000102d00aca undetected_chromedriver + 1067722
+8   undetected_chromedriver             0x0000000102cd9563 undetected_chromedriver + 906595
+9   undetected_chromedriver             0x0000000102ca5955 undetected_chromedriver + 694613
+10  undetected_chromedriver             0x0000000102ca65b1 undetected_chromedriver + 697777
+11  undetected_chromedriver             0x0000000103196ef0 undetected_chromedriver + 5877488
+12  undetected_chromedriver             0x000000010319ade1 undetected_chromedriver + 5893601
+13  undetected_chromedriver             0x0000000103171334 undetected_chromedriver + 5722932
+14  undetected_chromedriver             0x000000010319b7fb undetected_chromedriver + 5896187
+15  undetected_chromedriver             0x000000010315fab4 undetected_chromedriver + 5651124
+16  undetected_chromedriver             0x00000001031be908 undetected_chromedriver + 6039816
+17  undetected_chromedriver             0x00000001031bead0 undetected_chromedriver + 6040272
+18  undetected_chromedriver             0x00000001031d06c1 undetected_chromedriver + 6112961
+19  libsystem_pthread.dylib             0x00007ff809800df1 _pthread_start + 99
+20  libsystem_pthread.dylib             0x00007ff8097fc857 thread_start + 15
+
+2025-04-23 15:51:33.991 | WARNING  | __main__:download_current_page_pdf:210 - Download failed: Message: no such element: Unable to locate element: {"method":"css selector","selector":"[id="entireP"]"}
+  (Session info: chrome=135.0.7049.114); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   undetected_chromedriver             0x00000001031d9438 undetected_chromedriver + 6149176
+1   undetected_chromedriver             0x00000001031d0afa undetected_chromedriver + 6114042
+2   undetected_chromedriver             0x0000000102c61e80 undetected_chromedriver + 417408
+3   undetected_chromedriver             0x0000000102cb3587 undetected_chromedriver + 750983
+4   undetected_chromedriver             0x0000000102cb37a1 undetected_chromedriver + 751521
+5   undetected_chromedriver             0x0000000102d03784 undetected_chromedriver + 1079172
+6   undetected_chromedriver             0x0000000102cd97bd undetected_chromedriver + 907197
+7   undetected_chromedriver             0x0000000102d00aca undetected_chromedriver + 1067722
+8   undetected_chromedriver             0x0000000102cd9563 undetected_chromedriver + 906595
+9   undetected_chromedriver             0x0000000102ca5955 undetected_chromedriver + 694613
+10  undetected_chromedriver             0x0000000102ca65b1 undetected_chromedriver + 697777
+11  undetected_chromedriver             0x0000000103196ef0 undetected_chromedriver + 5877488
+12  undetected_chromedriver             0x000000010319ade1 undetected_chromedriver + 5893601
+13  undetected_chromedriver             0x0000000103171334 undetected_chromedriver + 5722932
+14  undetected_chromedriver             0x000000010319b7fb undetected_chromedriver + 5896187
+15  undetected_chromedriver             0x000000010315fab4 undetected_chromedriver + 5651124
+16  undetected_chromedriver             0x00000001031be908 undetected_chromedriver + 6039816
+17  undetected_chromedriver             0x00000001031bead0 undetected_chromedriver + 6040272
+18  undetected_chromedriver             0x00000001031d06c1 undetected_chromedriver + 6112961
+19  libsystem_pthread.dylib             0x00007ff809800df1 _pthread_start + 99
+20  libsystem_pthread.dylib             0x00007ff8097fc857 thread_start + 15
+
+2025-04-23 15:51:37.210 | WARNING  | __main__:download_current_page_pdf:210 - Download failed: Message: no such element: Unable to locate element: {"method":"css selector","selector":"[id="entireP"]"}
+  (Session info: chrome=135.0.7049.114); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   undetected_chromedriver             0x00000001031d9438 undetected_chromedriver + 6149176
+1   undetected_chromedriver             0x00000001031d0afa undetected_chromedriver + 6114042
+2   undetected_chromedriver             0x0000000102c61e80 undetected_chromedriver + 417408
+3   undetected_chromedriver             0x0000000102cb3587 undetected_chromedriver + 750983
+4   undetected_chromedriver             0x0000000102cb37a1 undetected_chromedriver + 751521
+5   undetected_chromedriver             0x0000000102d03784 undetected_chromedriver + 1079172
+6   undetected_chromedriver             0x0000000102cd97bd undetected_chromedriver + 907197
+7   undetected_chromedriver             0x0000000102d00aca undetected_chromedriver + 1067722
+8   undetected_chromedriver             0x0000000102cd9563 undetected_chromedriver + 906595
+9   undetected_chromedriver             0x0000000102ca5955 undetected_chromedriver + 694613
+10  undetected_chromedriver             0x0000000102ca65b1 undetected_chromedriver + 697777
+11  undetected_chromedriver             0x0000000103196ef0 undetected_chromedriver + 5877488
+12  undetected_chromedriver             0x000000010319ade1 undetected_chromedriver + 5893601
+13  undetected_chromedriver             0x0000000103171334 undetected_chromedriver + 5722932
+14  undetected_chromedriver             0x000000010319b7fb undetected_chromedriver + 5896187
+15  undetected_chromedriver             0x000000010315fab4 undetected_chromedriver + 5651124
+16  undetected_chromedriver             0x00000001031be908 undetected_chromedriver + 6039816
+17  undetected_chromedriver             0x00000001031bead0 undetected_chromedriver + 6040272
+18  undetected_chromedriver             0x00000001031d06c1 undetected_chromedriver + 6112961
+19  libsystem_pthread.dylib             0x00007ff809800df1 _pthread_start + 99
+20  libsystem_pthread.dylib             0x00007ff8097fc857 thread_start + 15
+
+2025-04-23 15:51:45.715 | WARNING  | __main__:download_current_page_pdf:210 - Download failed: Message: no such element: Unable to locate element: {"method":"css selector","selector":"[id="entireP"]"}
+  (Session info: chrome=135.0.7049.114); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   undetected_chromedriver             0x00000001031d9438 undetected_chromedriver + 6149176
+1   undetected_chromedriver             0x00000001031d0afa undetected_chromedriver + 6114042
+2   undetected_chromedriver             0x0000000102c61e80 undetected_chromedriver + 417408
+3   undetected_chromedriver             0x0000000102cb3587 undetected_chromedriver + 750983
+4   undetected_chromedriver             0x0000000102cb37a1 undetected_chromedriver + 751521
+5   undetected_chromedriver             0x0000000102d03784 undetected_chromedriver + 1079172
+6   undetected_chromedriver             0x0000000102cd97bd undetected_chromedriver + 907197
+7   undetected_chromedriver             0x0000000102d00aca undetected_chromedriver + 1067722
+8   undetected_chromedriver             0x0000000102cd9563 undetected_chromedriver + 906595
+9   undetected_chromedriver             0x0000000102ca5955 undetected_chromedriver + 694613
+10  undetected_chromedriver             0x0000000102ca65b1 undetected_chromedriver + 697777
+11  undetected_chromedriver             0x0000000103196ef0 undetected_chromedriver + 5877488
+12  undetected_chromedriver             0x000000010319ade1 undetected_chromedriver + 5893601
+13  undetected_chromedriver             0x0000000103171334 undetected_chromedriver + 5722932
+14  undetected_chromedriver             0x000000010319b7fb undetected_chromedriver + 5896187
+15  undetected_chromedriver             0x000000010315fab4 undetected_chromedriver + 5651124
+16  undetected_chromedriver             0x00000001031be908 undetected_chromedriver + 6039816
+17  undetected_chromedriver             0x00000001031bead0 undetected_chromedriver + 6040272
+18  undetected_chromedriver             0x00000001031d06c1 undetected_chromedriver + 6112961
+19  libsystem_pthread.dylib             0x00007ff809800df1 _pthread_start + 99
+20  libsystem_pthread.dylib             0x00007ff8097fc857 thread_start + 15
+
+2025-04-23 15:51:51.622 | WARNING  | __main__:download_current_page_pdf:210 - Download failed: Message: no such element: Unable to locate element: {"method":"css selector","selector":"[id="entireP"]"}
+  (Session info: chrome=135.0.7049.114); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   undetected_chromedriver             0x00000001031d9438 undetected_chromedriver + 6149176
+1   undetected_chromedriver             0x00000001031d0afa undetected_chromedriver + 6114042
+2   undetected_chromedriver             0x0000000102c61e80 undetected_chromedriver + 417408
+3   undetected_chromedriver             0x0000000102cb3587 undetected_chromedriver + 750983
+4   undetected_chromedriver             0x0000000102cb37a1 undetected_chromedriver + 751521
+5   undetected_chromedriver             0x0000000102d03784 undetected_chromedriver + 1079172
+6   undetected_chromedriver             0x0000000102cd97bd undetected_chromedriver + 907197
+7   undetected_chromedriver             0x0000000102d00aca undetected_chromedriver + 1067722
+8   undetected_chromedriver             0x0000000102cd9563 undetected_chromedriver + 906595
+9   undetected_chromedriver             0x0000000102ca5955 undetected_chromedriver + 694613
+10  undetected_chromedriver             0x0000000102ca65b1 undetected_chromedriver + 697777
+11  undetected_chromedriver             0x0000000103196ef0 undetected_chromedriver + 5877488
+12  undetected_chromedriver             0x000000010319ade1 undetected_chromedriver + 5893601
+13  undetected_chromedriver             0x0000000103171334 undetected_chromedriver + 5722932
+14  undetected_chromedriver             0x000000010319b7fb undetected_chromedriver + 5896187
+15  undetected_chromedriver             0x000000010315fab4 undetected_chromedriver + 5651124
+16  undetected_chromedriver             0x00000001031be908 undetected_chromedriver + 6039816
+17  undetected_chromedriver             0x00000001031bead0 undetected_chromedriver + 6040272
+18  undetected_chromedriver             0x00000001031d06c1 undetected_chromedriver + 6112961
+19  libsystem_pthread.dylib             0x00007ff809800df1 _pthread_start + 99
+20  libsystem_pthread.dylib             0x00007ff8097fc857 thread_start + 15
+
+2025-04-23 15:51:55.542 | WARNING  | __main__:download_current_page_pdf:210 - Download failed: Message: no such element: Unable to locate element: {"method":"css selector","selector":"[id="entireP"]"}
+  (Session info: chrome=135.0.7049.114); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   undetected_chromedriver             0x00000001031d9438 undetected_chromedriver + 6149176
+1   undetected_chromedriver             0x00000001031d0afa undetected_chromedriver + 6114042
+2   undetected_chromedriver             0x0000000102c61e80 undetected_chromedriver + 417408
+3   undetected_chromedriver             0x0000000102cb3587 undetected_chromedriver + 750983
+4   undetected_chromedriver             0x0000000102cb37a1 undetected_chromedriver + 751521
+5   undetected_chromedriver             0x0000000102d03784 undetected_chromedriver + 1079172
+6   undetected_chromedriver             0x0000000102cd97bd undetected_chromedriver + 907197
+7   undetected_chromedriver             0x0000000102d00aca undetected_chromedriver + 1067722
+8   undetected_chromedriver             0x0000000102cd9563 undetected_chromedriver + 906595
+9   undetected_chromedriver             0x0000000102ca5955 undetected_chromedriver + 694613
+10  undetected_chromedriver             0x0000000102ca65b1 undetected_chromedriver + 697777
+11  undetected_chromedriver             0x0000000103196ef0 undetected_chromedriver + 5877488
+12  undetected_chromedriver             0x000000010319ade1 undetected_chromedriver + 5893601
+13  undetected_chromedriver             0x0000000103171334 undetected_chromedriver + 5722932
+14  undetected_chromedriver             0x000000010319b7fb undetected_chromedriver + 5896187
+15  undetected_chromedriver             0x000000010315fab4 undetected_chromedriver + 5651124
+16  undetected_chromedriver             0x00000001031be908 undetected_chromedriver + 6039816
+17  undetected_chromedriver             0x00000001031bead0 undetected_chromedriver + 6040272
+18  undetected_chromedriver             0x00000001031d06c1 undetected_chromedriver + 6112961
+19  libsystem_pthread.dylib             0x00007ff809800df1 _pthread_start + 99
+20  libsystem_pthread.dylib             0x00007ff8097fc857 thread_start + 15
+
+2025-04-23 15:51:59.139 | WARNING  | __main__:download_current_page_pdf:210 - Download failed: Message: no such element: Unable to locate element: {"method":"css selector","selector":"[id="entireP"]"}
+  (Session info: chrome=135.0.7049.114); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   undetected_chromedriver             0x00000001031d9438 undetected_chromedriver + 6149176
+1   undetected_chromedriver             0x00000001031d0afa undetected_chromedriver + 6114042
+2   undetected_chromedriver             0x0000000102c61e80 undetected_chromedriver + 417408
+3   undetected_chromedriver             0x0000000102cb3587 undetected_chromedriver + 750983
+4   undetected_chromedriver             0x0000000102cb37a1 undetected_chromedriver + 751521
+5   undetected_chromedriver             0x0000000102d03784 undetected_chromedriver + 1079172
+6   undetected_chromedriver             0x0000000102cd97bd undetected_chromedriver + 907197
+7   undetected_chromedriver             0x0000000102d00aca undetected_chromedriver + 1067722
+8   undetected_chromedriver             0x0000000102cd9563 undetected_chromedriver + 906595
+9   undetected_chromedriver             0x0000000102ca5955 undetected_chromedriver + 694613
+10  undetected_chromedriver             0x0000000102ca65b1 undetected_chromedriver + 697777
+11  undetected_chromedriver             0x0000000103196ef0 undetected_chromedriver + 5877488
+12  undetected_chromedriver             0x000000010319ade1 undetected_chromedriver + 5893601
+13  undetected_chromedriver             0x0000000103171334 undetected_chromedriver + 5722932
+14  undetected_chromedriver             0x000000010319b7fb undetected_chromedriver + 5896187
+15  undetected_chromedriver             0x000000010315fab4 undetected_chromedriver + 5651124
+16  undetected_chromedriver             0x00000001031be908 undetected_chromedriver + 6039816
+17  undetected_chromedriver             0x00000001031bead0 undetected_chromedriver + 6040272
+18  undetected_chromedriver             0x00000001031d06c1 undetected_chromedriver + 6112961
+19  libsystem_pthread.dylib             0x00007ff809800df1 _pthread_start + 99
+20  libsystem_pthread.dylib             0x00007ff8097fc857 thread_start + 15
+
+2025-04-23 15:52:05.270 | WARNING  | __main__:download_current_page_pdf:210 - Download failed: Message: no such element: Unable to locate element: {"method":"css selector","selector":"[id="entireP"]"}
+  (Session info: chrome=135.0.7049.114); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   undetected_chromedriver             0x00000001031d9438 undetected_chromedriver + 6149176
+1   undetected_chromedriver             0x00000001031d0afa undetected_chromedriver + 6114042
+2   undetected_chromedriver             0x0000000102c61e80 undetected_chromedriver + 417408
+3   undetected_chromedriver             0x0000000102cb3587 undetected_chromedriver + 750983
+4   undetected_chromedriver             0x0000000102cb37a1 undetected_chromedriver + 751521
+5   undetected_chromedriver             0x0000000102d03784 undetected_chromedriver + 1079172
+6   undetected_chromedriver             0x0000000102cd97bd undetected_chromedriver + 907197
+7   undetected_chromedriver             0x0000000102d00aca undetected_chromedriver + 1067722
+8   undetected_chromedriver             0x0000000102cd9563 undetected_chromedriver + 906595
+9   undetected_chromedriver             0x0000000102ca5955 undetected_chromedriver + 694613
+10  undetected_chromedriver             0x0000000102ca65b1 undetected_chromedriver + 697777
+11  undetected_chromedriver             0x0000000103196ef0 undetected_chromedriver + 5877488
+12  undetected_chromedriver             0x000000010319ade1 undetected_chromedriver + 5893601
+13  undetected_chromedriver             0x0000000103171334 undetected_chromedriver + 5722932
+14  undetected_chromedriver             0x000000010319b7fb undetected_chromedriver + 5896187
+15  undetected_chromedriver             0x000000010315fab4 undetected_chromedriver + 5651124
+16  undetected_chromedriver             0x00000001031be908 undetected_chromedriver + 6039816
+17  undetected_chromedriver             0x00000001031bead0 undetected_chromedriver + 6040272
+18  undetected_chromedriver             0x00000001031d06c1 undetected_chromedriver + 6112961
+19  libsystem_pthread.dylib             0x00007ff809800df1 _pthread_start + 99
+20  libsystem_pthread.dylib             0x00007ff8097fc857 thread_start + 15
+

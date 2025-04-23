@@ -1,0 +1,105 @@
+2025-04-23 15:59:40.188 | INFO     | __main__:launch_browser:101 - Chrome launched with persistent profile – assuming already logged in.
+2025-04-23 15:59:54.019 | WARNING  | __main__:download_current_page_pdf:185 - 'Entire Page' button not found – print dialog failed to load
+2025-04-23 16:00:06.117 | WARNING  | __main__:download_current_page_pdf:185 - 'Entire Page' button not found – print dialog failed to load
+2025-04-23 16:00:18.021 | WARNING  | __main__:download_current_page_pdf:185 - 'Entire Page' button not found – print dialog failed to load
+2025-04-23 16:00:20.684 | WARNING  | __main__:download_current_page_pdf:212 - Download failed: Message: invalid session id: session deleted as the browser has closed the connection
+from disconnected: not connected to DevTools
+  (Session info: chrome=135.0.7049.114)
+Stacktrace:
+0   undetected_chromedriver             0x0000000100de3438 undetected_chromedriver + 6149176
+1   undetected_chromedriver             0x0000000100ddaafa undetected_chromedriver + 6114042
+2   undetected_chromedriver             0x000000010086be80 undetected_chromedriver + 417408
+3   undetected_chromedriver             0x0000000100851a3d undetected_chromedriver + 309821
+4   undetected_chromedriver             0x000000010087ab2a undetected_chromedriver + 477994
+5   undetected_chromedriver             0x00000001008ebf09 undetected_chromedriver + 941833
+6   undetected_chromedriver             0x000000010090a47c undetected_chromedriver + 1066108
+7   undetected_chromedriver             0x00000001008e3563 undetected_chromedriver + 906595
+8   undetected_chromedriver             0x00000001008af955 undetected_chromedriver + 694613
+9   undetected_chromedriver             0x00000001008b05b1 undetected_chromedriver + 697777
+10  undetected_chromedriver             0x0000000100da0ef0 undetected_chromedriver + 5877488
+11  undetected_chromedriver             0x0000000100da4de1 undetected_chromedriver + 5893601
+12  undetected_chromedriver             0x0000000100d7b334 undetected_chromedriver + 5722932
+13  undetected_chromedriver             0x0000000100da57fb undetected_chromedriver + 5896187
+14  undetected_chromedriver             0x0000000100d69ab4 undetected_chromedriver + 5651124
+15  undetected_chromedriver             0x0000000100dc8908 undetected_chromedriver + 6039816
+16  undetected_chromedriver             0x0000000100dc8ad0 undetected_chromedriver + 6040272
+17  undetected_chromedriver             0x0000000100dda6c1 undetected_chromedriver + 6112961
+18  libsystem_pthread.dylib             0x00007ff809800df1 _pthread_start + 99
+19  libsystem_pthread.dylib             0x00007ff8097fc857 thread_start + 15
+
+2025-04-23 16:00:20.685 | WARNING  | __main__:scrape_and_ocr:329 - Chrome session lost – relaunching...
+2025-04-23 16:00:23.565 | INFO     | __main__:launch_browser:101 - Chrome launched with persistent profile – assuming already logged in.
+2025-04-23 16:00:38.690 | WARNING  | __main__:download_current_page_pdf:185 - 'Entire Page' button not found – print dialog failed to load
+2025-04-23 16:00:51.291 | WARNING  | __main__:download_current_page_pdf:185 - 'Entire Page' button not found – print dialog failed to load
+2025-04-23 16:01:03.660 | WARNING  | __main__:download_current_page_pdf:185 - 'Entire Page' button not found – print dialog failed to load
+2025-04-23 16:01:15.163 | WARNING  | __main__:download_current_page_pdf:185 - 'Entire Page' button not found – print dialog failed to load
+2025-04-23 16:01:26.862 | WARNING  | __main__:download_current_page_pdf:185 - 'Entire Page' button not found – print dialog failed to load
+2025-04-23 16:01:32.043 | INFO     | __main__:download_current_page_pdf:209 - Downloaded Fergus_Falls_Ugeblad_1902_09_04_2.pdf
+2025-04-23 16:01:32.051 | ERROR    | __main__:extract_paragraph_from_pdf:115 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Fergus_Falls_Ugeblad_1902_09_04_2.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:01:32.052 | WARNING  | __main__:scrape_and_ocr:302 - Empty OCR for Fergus_Falls_Ugeblad_1902_09_04_2.pdf
+2025-04-23 16:01:34.589 | INFO     | __main__:download_current_page_pdf:209 - Downloaded Fergus_Falls_Ugeblad_1902_09_04_2.pdf
+2025-04-23 16:01:34.594 | ERROR    | __main__:extract_paragraph_from_pdf:115 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Fergus_Falls_Ugeblad_1902_09_04_2.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:01:34.594 | WARNING  | __main__:scrape_and_ocr:302 - Empty OCR for Fergus_Falls_Ugeblad_1902_09_04_2.pdf
+2025-04-23 16:01:37.799 | INFO     | __main__:download_current_page_pdf:209 - Downloaded Fergus_Falls_Ugeblad_1902_09_04_2.pdf
+2025-04-23 16:01:37.802 | ERROR    | __main__:extract_paragraph_from_pdf:115 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Fergus_Falls_Ugeblad_1902_09_04_2.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:01:37.802 | WARNING  | __main__:scrape_and_ocr:302 - Empty OCR for Fergus_Falls_Ugeblad_1902_09_04_2.pdf
+2025-04-23 16:01:39.628 | INFO     | __main__:download_current_page_pdf:209 - Downloaded Fergus_Falls_Ugeblad_1902_09_04_2.pdf
+2025-04-23 16:01:39.651 | ERROR    | __main__:extract_paragraph_from_pdf:115 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Fergus_Falls_Ugeblad_1902_09_04_2.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:01:39.653 | WARNING  | __main__:scrape_and_ocr:302 - Empty OCR for Fergus_Falls_Ugeblad_1902_09_04_2.pdf
+2025-04-23 16:01:41.941 | INFO     | __main__:download_current_page_pdf:209 - Downloaded Fergus_Falls_Ugeblad_1902_09_04_2.pdf
+2025-04-23 16:01:41.944 | ERROR    | __main__:extract_paragraph_from_pdf:115 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Fergus_Falls_Ugeblad_1902_09_04_2.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:01:41.944 | WARNING  | __main__:scrape_and_ocr:302 - Empty OCR for Fergus_Falls_Ugeblad_1902_09_04_2.pdf
+2025-04-23 16:01:56.468 | WARNING  | __main__:download_current_page_pdf:185 - 'Entire Page' button not found – print dialog failed to load
+2025-04-23 16:02:08.241 | WARNING  | __main__:download_current_page_pdf:185 - 'Entire Page' button not found – print dialog failed to load
+2025-04-23 16:02:20.330 | WARNING  | __main__:download_current_page_pdf:185 - 'Entire Page' button not found – print dialog failed to load
+2025-04-23 16:02:29.912 | WARNING  | __main__:download_current_page_pdf:212 - Download failed: Message: invalid session id: session deleted as the browser has closed the connection
+from disconnected: not connected to DevTools
+  (Session info: chrome=135.0.7049.114)
+Stacktrace:
+0   undetected_chromedriver             0x00000001030ca438 undetected_chromedriver + 6149176
+1   undetected_chromedriver             0x00000001030c1afa undetected_chromedriver + 6114042
+2   undetected_chromedriver             0x0000000102b52e80 undetected_chromedriver + 417408
+3   undetected_chromedriver             0x0000000102b38a3d undetected_chromedriver + 309821
+4   undetected_chromedriver             0x0000000102b61b2a undetected_chromedriver + 477994
+5   undetected_chromedriver             0x0000000102bd2f09 undetected_chromedriver + 941833
+6   undetected_chromedriver             0x0000000102bf147c undetected_chromedriver + 1066108
+7   undetected_chromedriver             0x0000000102bca563 undetected_chromedriver + 906595
+8   undetected_chromedriver             0x0000000102b96955 undetected_chromedriver + 694613
+9   undetected_chromedriver             0x0000000102b975b1 undetected_chromedriver + 697777
+10  undetected_chromedriver             0x0000000103087ef0 undetected_chromedriver + 5877488
+11  undetected_chromedriver             0x000000010308bde1 undetected_chromedriver + 5893601
+12  undetected_chromedriver             0x0000000103062334 undetected_chromedriver + 5722932
+13  undetected_chromedriver             0x000000010308c7fb undetected_chromedriver + 5896187
+14  undetected_chromedriver             0x0000000103050ab4 undetected_chromedriver + 5651124
+15  undetected_chromedriver             0x00000001030af908 undetected_chromedriver + 6039816
+16  undetected_chromedriver             0x00000001030afad0 undetected_chromedriver + 6040272
+17  undetected_chromedriver             0x00000001030c16c1 undetected_chromedriver + 6112961
+18  libsystem_pthread.dylib             0x00007ff809800df1 _pthread_start + 99
+19  libsystem_pthread.dylib             0x00007ff8097fc857 thread_start + 15
+
+2025-04-23 16:02:29.929 | WARNING  | __main__:scrape_and_ocr:329 - Chrome session lost – relaunching...
+2025-04-23 16:02:32.823 | INFO     | __main__:launch_browser:101 - Chrome launched with persistent profile – assuming already logged in.
+2025-04-23 16:02:42.021 | WARNING  | __main__:download_current_page_pdf:212 - Download failed: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=135.0.7049.114)
+Stacktrace:
+0   undetected_chromedriver             0x00000001050cf438 undetected_chromedriver + 6149176
+1   undetected_chromedriver             0x00000001050c6afa undetected_chromedriver + 6114042
+2   undetected_chromedriver             0x0000000104b57e80 undetected_chromedriver + 417408
+3   undetected_chromedriver             0x0000000104b2c505 undetected_chromedriver + 238853
+4   undetected_chromedriver             0x0000000104bd7d5e undetected_chromedriver + 941406
+5   undetected_chromedriver             0x0000000104bf647c undetected_chromedriver + 1066108
+6   undetected_chromedriver             0x0000000104bcf563 undetected_chromedriver + 906595
+7   undetected_chromedriver             0x0000000104b9b955 undetected_chromedriver + 694613
+8   undetected_chromedriver             0x0000000104b9c5b1 undetected_chromedriver + 697777
+9   undetected_chromedriver             0x000000010508cef0 undetected_chromedriver + 5877488
+10  undetected_chromedriver             0x0000000105090de1 undetected_chromedriver + 5893601
+11  undetected_chromedriver             0x0000000105067334 undetected_chromedriver + 5722932
+12  undetected_chromedriver             0x00000001050917fb undetected_chromedriver + 5896187
+13  undetected_chromedriver             0x0000000105055ab4 undetected_chromedriver + 5651124
+14  undetected_chromedriver             0x00000001050b4908 undetected_chromedriver + 6039816
+15  undetected_chromedriver             0x00000001050b4ad0 undetected_chromedriver + 6040272
+16  undetected_chromedriver             0x00000001050c66c1 undetected_chromedriver + 6112961
+17  libsystem_pthread.dylib             0x00007ff809800df1 _pthread_start + 99
+18  libsystem_pthread.dylib             0x00007ff8097fc857 thread_start + 15
+

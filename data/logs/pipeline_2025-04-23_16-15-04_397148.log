@@ -1,0 +1,136 @@
+2025-04-23 16:15:16.292 | INFO     | __main__:launch_browser:109 - Chrome launched with persistent profile – assuming already logged in.
+2025-04-23 16:15:23.266 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Fergus_Falls_Ugeblad_1902_09_04_2.pdf (sidebar flow)
+2025-04-23 16:15:23.284 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Fergus_Falls_Ugeblad_1902_09_04_2.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:15:23.284 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Fergus_Falls_Ugeblad_1902_09_04_2.pdf
+2025-04-23 16:15:27.805 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Fergus_Falls_Ugeblad_1902_09_04_2.pdf (sidebar flow)
+2025-04-23 16:15:27.809 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Fergus_Falls_Ugeblad_1902_09_04_2.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:15:27.809 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Fergus_Falls_Ugeblad_1902_09_04_2.pdf
+2025-04-23 16:15:33.160 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Daily_News_1967_05_24_1.pdf (sidebar flow)
+2025-04-23 16:15:33.163 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Daily_News_1967_05_24_1.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:15:33.163 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Daily_News_1967_05_24_1.pdf
+2025-04-23 16:15:38.300 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Daily_News_1967_05_24_1.pdf (sidebar flow)
+2025-04-23 16:15:38.307 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Daily_News_1967_05_24_1.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:15:38.308 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Daily_News_1967_05_24_1.pdf
+2025-04-23 16:15:42.901 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Daily_News_1967_05_24_1.pdf (sidebar flow)
+2025-04-23 16:15:42.904 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Daily_News_1967_05_24_1.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:15:42.905 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Daily_News_1967_05_24_1.pdf
+2025-04-23 16:15:53.540 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Daily_News_1967_05_24_1.pdf (sidebar flow)
+2025-04-23 16:15:53.557 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Daily_News_1967_05_24_1.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:15:53.558 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Daily_News_1967_05_24_1.pdf
+2025-04-23 16:16:01.355 | INFO     | __main__:download_current_page_pdf:222 - Downloaded The_Pattonsburg_Call_1902_05_09_2.pdf (sidebar flow)
+2025-04-23 16:16:01.373 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/The_Pattonsburg_Call_1902_05_09_2.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:16:01.373 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for The_Pattonsburg_Call_1902_05_09_2.pdf
+2025-04-23 16:16:06.099 | INFO     | __main__:download_current_page_pdf:222 - Downloaded The_Pattonsburg_Call_1902_05_09_2.pdf (sidebar flow)
+2025-04-23 16:16:06.102 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/The_Pattonsburg_Call_1902_05_09_2.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:16:06.103 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for The_Pattonsburg_Call_1902_05_09_2.pdf
+2025-04-23 16:16:10.518 | INFO     | __main__:download_current_page_pdf:222 - Downloaded The_Pattonsburg_Call_1902_05_09_2.pdf (sidebar flow)
+2025-04-23 16:16:10.521 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/The_Pattonsburg_Call_1902_05_09_2.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:16:10.521 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for The_Pattonsburg_Call_1902_05_09_2.pdf
+2025-04-23 16:16:17.045 | INFO     | __main__:download_current_page_pdf:222 - Downloaded The_Pattonsburg_Call_1902_05_09_2.pdf (sidebar flow)
+2025-04-23 16:16:17.062 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/The_Pattonsburg_Call_1902_05_09_2.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:16:17.062 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for The_Pattonsburg_Call_1902_05_09_2.pdf
+2025-04-23 16:16:30.246 | INFO     | __main__:download_current_page_pdf:279 - Downloaded The_Pattonsburg_Call_1902_05_09_2.pdf
+2025-04-23 16:16:30.264 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/The_Pattonsburg_Call_1902_05_09_2.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:16:30.264 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for The_Pattonsburg_Call_1902_05_09_2.pdf
+2025-04-23 16:16:41.465 | INFO     | __main__:download_current_page_pdf:279 - Downloaded The_Pattonsburg_Call_1902_05_09_2.pdf
+2025-04-23 16:16:41.483 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/The_Pattonsburg_Call_1902_05_09_2.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:16:41.484 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for The_Pattonsburg_Call_1902_05_09_2.pdf
+2025-04-23 16:16:52.059 | INFO     | __main__:download_current_page_pdf:279 - Downloaded The_Pattonsburg_Call_1902_05_09_2.pdf
+2025-04-23 16:16:52.090 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/The_Pattonsburg_Call_1902_05_09_2.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:16:52.091 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for The_Pattonsburg_Call_1902_05_09_2.pdf
+2025-04-23 16:17:02.743 | INFO     | __main__:download_current_page_pdf:279 - Downloaded The_Pattonsburg_Call_1902_05_09_2.pdf
+2025-04-23 16:17:02.762 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/The_Pattonsburg_Call_1902_05_09_2.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:17:02.763 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for The_Pattonsburg_Call_1902_05_09_2.pdf
+2025-04-23 16:17:13.569 | INFO     | __main__:download_current_page_pdf:279 - Downloaded The_Pattonsburg_Call_1902_05_09_2.pdf
+2025-04-23 16:17:13.585 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/The_Pattonsburg_Call_1902_05_09_2.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:17:13.585 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for The_Pattonsburg_Call_1902_05_09_2.pdf
+2025-04-23 16:17:21.182 | INFO     | __main__:download_current_page_pdf:222 - Downloaded The_Pattonsburg_Call_1902_05_09_2.pdf (sidebar flow)
+2025-04-23 16:17:21.185 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/The_Pattonsburg_Call_1902_05_09_2.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:17:21.186 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for The_Pattonsburg_Call_1902_05_09_2.pdf
+2025-04-23 16:17:26.293 | INFO     | __main__:download_current_page_pdf:222 - Downloaded The_Springfield_Daily_Republican_1925_09_12_3.pdf (sidebar flow)
+2025-04-23 16:17:26.313 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/The_Springfield_Daily_Republican_1925_09_12_3.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:17:26.313 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for The_Springfield_Daily_Republican_1925_09_12_3.pdf
+2025-04-23 16:17:30.963 | INFO     | __main__:download_current_page_pdf:222 - Downloaded The_Springfield_Daily_Republican_1925_09_12_3.pdf (sidebar flow)
+2025-04-23 16:17:30.966 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/The_Springfield_Daily_Republican_1925_09_12_3.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:17:30.966 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for The_Springfield_Daily_Republican_1925_09_12_3.pdf
+2025-04-23 16:17:37.719 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Springfield_Weekly_Republican_1925_09_17_12.pdf (sidebar flow)
+2025-04-23 16:17:37.738 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Springfield_Weekly_Republican_1925_09_17_12.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:17:37.738 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Springfield_Weekly_Republican_1925_09_17_12.pdf
+2025-04-23 16:17:46.605 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Springfield_Weekly_Republican_1925_09_17_12 (1).pdf (sidebar flow)
+2025-04-23 16:17:46.608 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Springfield_Weekly_Republican_1925_09_17_12 (1).pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:17:46.609 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Springfield_Weekly_Republican_1925_09_17_12 (1).pdf
+2025-04-23 16:17:54.035 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Springfield_Weekly_Republican_1925_09_17_12 (1).pdf (sidebar flow)
+2025-04-23 16:17:54.053 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Springfield_Weekly_Republican_1925_09_17_12 (1).pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:17:54.053 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Springfield_Weekly_Republican_1925_09_17_12 (1).pdf
+2025-04-23 16:17:58.718 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Chicago_Tribune_1956_09_13_Page_97.pdf (sidebar flow)
+2025-04-23 16:17:58.721 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Chicago_Tribune_1956_09_13_Page_97.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:17:58.721 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Chicago_Tribune_1956_09_13_Page_97.pdf
+2025-04-23 16:18:06.541 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Chicago_Tribune_1956_09_13_Page_97.pdf (sidebar flow)
+2025-04-23 16:18:06.567 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Chicago_Tribune_1956_09_13_Page_97.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:18:06.568 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Chicago_Tribune_1956_09_13_Page_97.pdf
+2025-04-23 16:18:11.303 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Chicago_Tribune_1956_09_13_Page_97.pdf (sidebar flow)
+2025-04-23 16:18:11.307 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Chicago_Tribune_1956_09_13_Page_97.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:18:11.307 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Chicago_Tribune_1956_09_13_Page_97.pdf
+2025-04-23 16:18:15.650 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Chicago_Tribune_1956_09_13_Page_97.pdf (sidebar flow)
+2025-04-23 16:18:15.653 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Chicago_Tribune_1956_09_13_Page_97.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:18:15.653 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Chicago_Tribune_1956_09_13_Page_97.pdf
+2025-04-23 16:18:21.891 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Chicago_Tribune_1956_09_13_Page_97.pdf (sidebar flow)
+2025-04-23 16:18:21.907 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Chicago_Tribune_1956_09_13_Page_97.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:18:21.907 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Chicago_Tribune_1956_09_13_Page_97.pdf
+2025-04-23 16:18:26.216 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Chicago_Tribune_1956_09_13_Page_97.pdf (sidebar flow)
+2025-04-23 16:18:26.219 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Chicago_Tribune_1956_09_13_Page_97.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:18:26.219 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Chicago_Tribune_1956_09_13_Page_97.pdf
+2025-04-23 16:18:33.638 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Chicago_Tribune_1956_09_13_Page_97.pdf (sidebar flow)
+2025-04-23 16:18:33.656 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Chicago_Tribune_1956_09_13_Page_97.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:18:33.656 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Chicago_Tribune_1956_09_13_Page_97.pdf
+2025-04-23 16:18:38.491 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Chicago_Tribune_1956_09_13_Page_97.pdf (sidebar flow)
+2025-04-23 16:18:38.508 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Chicago_Tribune_1956_09_13_Page_97.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:18:38.508 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Chicago_Tribune_1956_09_13_Page_97.pdf
+2025-04-23 16:18:46.725 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Chicago_Tribune_1956_09_13_Page_97.pdf (sidebar flow)
+2025-04-23 16:18:46.746 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Chicago_Tribune_1956_09_13_Page_97.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:18:46.746 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Chicago_Tribune_1956_09_13_Page_97.pdf
+2025-04-23 16:18:56.428 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Chicago_Tribune_1956_09_13_Page_97.pdf (sidebar flow)
+2025-04-23 16:18:56.455 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Chicago_Tribune_1956_09_13_Page_97.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:18:56.456 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Chicago_Tribune_1956_09_13_Page_97.pdf
+2025-04-23 16:19:04.190 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Harrisburg_Telegraph_1914_12_03_Page_11.pdf (sidebar flow)
+2025-04-23 16:19:04.194 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Harrisburg_Telegraph_1914_12_03_Page_11.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:19:04.194 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Harrisburg_Telegraph_1914_12_03_Page_11.pdf
+2025-04-23 16:19:09.006 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Harrisburg_Telegraph_1914_12_03_Page_11.pdf (sidebar flow)
+2025-04-23 16:19:09.024 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Harrisburg_Telegraph_1914_12_03_Page_11.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:19:09.025 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Harrisburg_Telegraph_1914_12_03_Page_11.pdf
+2025-04-23 16:19:13.753 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Harrisburg_Telegraph_1914_12_03_Page_11.pdf (sidebar flow)
+2025-04-23 16:19:13.756 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Harrisburg_Telegraph_1914_12_03_Page_11.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:19:13.756 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Harrisburg_Telegraph_1914_12_03_Page_11.pdf
+2025-04-23 16:19:19.195 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf (sidebar flow)
+2025-04-23 16:19:19.211 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:19:19.212 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf
+2025-04-23 16:19:29.203 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf (sidebar flow)
+2025-04-23 16:19:29.222 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:19:29.222 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf
+2025-04-23 16:19:33.925 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf (sidebar flow)
+2025-04-23 16:19:33.929 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:19:33.929 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf
+2025-04-23 16:19:42.972 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf (sidebar flow)
+2025-04-23 16:19:42.987 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:19:42.987 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf
+2025-04-23 16:19:48.031 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf (sidebar flow)
+2025-04-23 16:19:48.034 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:19:48.034 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf
+2025-04-23 16:19:54.362 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf (sidebar flow)
+2025-04-23 16:19:54.380 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:19:54.380 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf
+2025-04-23 16:20:03.610 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf (sidebar flow)
+2025-04-23 16:20:03.627 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:20:03.628 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf
+2025-04-23 16:20:08.582 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf (sidebar flow)
+2025-04-23 16:20:08.586 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:20:08.586 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf
+2025-04-23 16:20:16.903 | INFO     | __main__:download_current_page_pdf:222 - Downloaded Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf (sidebar flow)
+2025-04-23 16:20:16.922 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:20:16.922 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for Harrisburg_Daily_Independent_1914_12_03_Page_11.pdf
+2025-04-23 16:20:21.920 | INFO     | __main__:download_current_page_pdf:222 - Downloaded The_Vincennes_Sun_Commercial_1940_11_05_2.pdf (sidebar flow)
+2025-04-23 16:20:21.925 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/The_Vincennes_Sun_Commercial_1940_11_05_2.pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:20:21.925 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for The_Vincennes_Sun_Commercial_1940_11_05_2.pdf
+2025-04-23 16:20:27.701 | INFO     | __main__:download_current_page_pdf:222 - Downloaded The_Vincennes_Sun_Commercial_1940_11_05_2 (1).pdf (sidebar flow)
+2025-04-23 16:20:27.715 | ERROR    | __main__:extract_paragraph_from_pdf:123 - pdf2image failed on /Volumes/Save/@master/src/data/raw_pdf/The_Vincennes_Sun_Commercial_1940_11_05_2 (1).pdf: Unable to get page count. Is poppler installed and in PATH?
+2025-04-23 16:20:27.715 | WARNING  | __main__:scrape_and_ocr:372 - Empty OCR for The_Vincennes_Sun_Commercial_1940_11_05_2 (1).pdf
