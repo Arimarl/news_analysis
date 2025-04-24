@@ -1,0 +1,16 @@
+data/
+raw_pdf/
+raw_img/
+raw_png/
+ocr_txt/
+oct_txt/
+logs/
+
+*.pdf
+*.png
+*.jpeg
+*.jpg
+*.csv
+
+# macOS
+.DS_Store
