@@ -45,7 +45,19 @@ from pdf2image import convert_from_path
 import layoutparser as lp
 
 # ── GPT  (optional) ───────────────────────────────────────────────────────────
+
 import openai
+
+# ── OCR ENGINE PATH───────────────────────────────────────────────────────────
+import shutil, pytesseract
+_TESS_PATH = shutil.which("tesseract")
+if _TESS_PATH:
+    pytesseract.pytesseract.tesseract_cmd = _TESS_PATH
+else:  # hard‑fail early so the pipeline doesn’t crash deep inside pytesseract
+    logger.error(
+        "Tesseract executable not found – install it and make sure it’s in $PATH "
+        "or set TESSERACT_CMD before running the scraper."
+    )
 
 # ── CONFIG & PATHS ────────────────────────────────────────────────────────────
 load_dotenv()
@@ -53,9 +65,10 @@ ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"; DATA.mkdir(exist_ok=True)
 RAW_PDF  = DATA / "raw_pdf" ; RAW_PDF.mkdir(exist_ok=True)
 OCR_TXT   = DATA / "ocr_txt"  ; OCR_TXT.mkdir(exist_ok=True)
+POPPLER_PATH = "/opt/homebrew/bin"
 LOGS      = DATA / "logs"     ; LOGS.mkdir(exist_ok=True)
 
-CSV_POLITICIANS = ROOT / "sampled_politicians.csv"  # provided by user
+CSV_POLITICIANS = ROOT / "sampled_politicians_3.csv"  # provided by user
 OUT_PARAGRAPHS  = DATA / "extracted_paragraphs.csv"
 OUT_GPT         = DATA / "gpt_results.csv"
 
@@ -116,41 +129,60 @@ ocr_agent = lp.TesseractAgent(languages="eng")
 
 
 def extract_paragraph_from_pdf(pdf_path: Path) -> str:
-    """Detect yellow highlight bounding‑box and OCR around it; fallback to whole page."""
+    """Detect yellow highlight and OCR; returns cleaned paragraph text."""
     try:
-        img = convert_from_path(pdf_path, dpi=300, first_page=1, last_page=1)[0]
+        pages = convert_from_path(
+            pdf_path, dpi=300, first_page=1, last_page=1,
+            poppler_path=POPPLER_PATH        # ← fixes ‘Unable to get page count’
+        )
     except Exception as e:
-        logger.error(f"pdf2image failed on {pdf_path}: {e}")
+        logger.error(f"pdf2image failed on {pdf_path.name}: {e}")
         return ""
 
-    img_np = np.array(img)
-    hsv = cv2.cvtColor(img_np, cv2.COLOR_RGB2HSV)
+    img = pages[0]
+    hsv = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2HSV)
     mask = cv2.inRange(hsv, LOW_Y, HIGH_Y)
-    if mask.sum() < 1000:
-        crop = img
-    else:
+    if mask.sum() >= 1_000:
+        # cv2.boundingRect returns (x, y, w, h) – Pillow wants (left, upper, right, lower)
         x, y, w, h = cv2.boundingRect(mask)
-        pad = 40
-        crop = img.crop((max(x-pad,0), max(y-pad,0), x+w+pad, y+h+pad))
+        crop_box = (x, y, x + w, y + h)
+        crop = img.crop(crop_box)
+    else:
+        crop = img
 
-    with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
-        crop.save(tmp.name)
-        text = ocr_agent.detect(tmp.name)
-    clean = re.sub(r"-\n", "", text)
-    clean = re.sub(r"\n+", " ", clean).strip()
-    return clean
+    # OCR the (possibly cropped) first page
+    try:
+        with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
+            crop.save(tmp.name)
+            text = ocr_agent.detect(tmp.name)
+    except Exception as e:
+        logger.error(f"OCR failed for {pdf_path.name}: {e}")
+        return ""
+
+    text = re.sub(r"-\n", "", text)          # de-hyphenate
+    return re.sub(r"\s+\n?", " ", text).strip()
 
 # ── SCRAPING HELPERS ─────────────────────────────────────────────────────────
 
 @with_wait
-def wait_file(tmpdir: Path, suffix: str, timeout=30):
-    start = time.time()
-    while time.time() - start < timeout:
-        files = list(tmpdir.glob(f"*{suffix}"))
-        if files:
-            return max(files, key=lambda p: p.stat().st_mtime)
+def wait_file(tmpdir: Path, suffix: str, timeout: float = 90) -> Path:
+#wait file writing
+    end = time.time() + timeout
+    last_size = -1
+    latest: Path | None = None
+
+    while time.time() < end:
+        # newest finished-download candidate
+        done = [p for p in tmpdir.glob(f"*{suffix}") if not p.with_suffix(p.suffix + ".crdownload").exists()]
+        if done:
+            latest = max(done, key=lambda p: p.stat().st_mtime)
+            size = latest.stat().st_size
+            if size and size == last_size:            # stable size ➜ finished
+                return latest
+            last_size = size
         time.sleep(0.5)
-    raise TimeoutException("Download timed‑out")
+
+    raise TimeoutException("Download never completed (wait_file)")
 
 # --- core download snippet (adapted from click_and_save.txt) ---
 @with_wait
@@ -286,7 +318,9 @@ def download_current_page_pdf(driver: uc.Chrome) -> Path | None:
 @with_wait
 def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
     records: list[dict] = []
+    visited_urls: set[str] = set()
     for row in tqdm(df_targets.itertuples(), total=len(df_targets)):
+        got_paragraph = False      # stop after first successful OCR for this politician
         try:
             search_url = (
                 "https://www.newspapers.com/search/results/?query="
@@ -326,6 +360,9 @@ def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
 
             # iterate over the captured URLs
             for url in urls:
+                if url in visited_urls:
+                    continue
+                visited_urls.add(url)
                 driver.get(url)
                 driver.execute_script("window.scrollBy(0, 1)")  # poke lazy loader
 
@@ -357,6 +394,10 @@ def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
                     continue
 
                 pdf_path = download_current_page_pdf(driver)
+                if pdf_path and pdf_path.name in {r["source_pdf"] for r in records}:
+                    logger.info(f"Skipping duplicate PDF {pdf_path.name}")
+                    driver.back()
+                    continue
                 if not pdf_path:
                     driver.back()
                     WebDriverWait(
@@ -386,15 +427,8 @@ def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
                     "source_pdf": pdf_path.name,
                     "paragraph": paragraph,
                 })
-
-                driver.back()  # back to search results
-                WebDriverWait(
-                    driver,
-                    10,
-                    ignored_exceptions=(StaleElementReferenceException,)
-                ).until(
-                    EC.element_to_be_clickable((By.CSS_SELECTOR, LINK_SEL)))
-                time.sleep(np.random.uniform(0.8, 1.6))
+                # One good paragraph is enough for this politician
+                break   # exit URL loop – outer loop will move to next person
         except InvalidSessionIdException:
             logger.warning("Chrome session lost – relaunching...")
             driver = launch_browser()

@@ -1,3 +1,0 @@
-2025-04-23 15:44:35.632 | INFO     | __main__:launch_browser:119 - Chrome launched with persistent profile – assuming already logged in.
-2025-04-23 15:44:49.969 | WARNING  | __main__:_inner:87 - Timeout inside download_current_page_pdf
-2025-04-23 15:45:05.138 | WARNING  | __main__:_inner:87 - Timeout inside download_current_page_pdf
