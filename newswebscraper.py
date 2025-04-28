@@ -43,10 +43,24 @@ from selenium_stealth import stealth
 import cv2
 from pdf2image import convert_from_path
 import layoutparser as lp
+from layoutparser.models import Detectron2LayoutModel
 
-# ── GPT  (optional) ───────────────────────────────────────────────────────────
+POLITY_WORDS = (
+    "congress", "congressman", "congresswoman", "senate", "senator",
+    "representative", "rep.", "legislature", "election", "campaign",
+)
+NAME_RE_FLAGS = re.I | re.MULTILINE
 
-import openai
+# ── DETECTRON LABEL MAP ──────────────────────────────────────────────────────
+
+LABEL_MAP = {
+    0: "Text",
+    1: "Title",
+    2: "List",
+    3: "Table",
+    4: "Figure",
+}
+
 
 # ── OCR ENGINE PATH───────────────────────────────────────────────────────────
 import shutil, pytesseract
@@ -62,6 +76,8 @@ else:  # hard‑fail early so the pipeline doesn’t crash deep inside pytessera
 # ── CONFIG & PATHS ────────────────────────────────────────────────────────────
 load_dotenv()
 ROOT = Path(__file__).resolve().parent
+# Path to the *real* Detectron2 weights.  Make sure this matches the repo you cloned.
+MODEL_WEIGHTS = ROOT / "PubLayNet-faster_rcnn_R_50_FPN_3x" / "model_final.pth"
 DATA = ROOT / "data"; DATA.mkdir(exist_ok=True)
 RAW_PDF  = DATA / "raw_pdf" ; RAW_PDF.mkdir(exist_ok=True)
 OCR_TXT   = DATA / "ocr_txt"  ; OCR_TXT.mkdir(exist_ok=True)
@@ -70,9 +86,7 @@ LOGS      = DATA / "logs"     ; LOGS.mkdir(exist_ok=True)
 
 CSV_POLITICIANS = ROOT / "sampled_politicians_3.csv"  # provided by user
 OUT_PARAGRAPHS  = DATA / "extracted_paragraphs.csv"
-OUT_GPT         = DATA / "gpt_results.csv"
 
-OPENAI_KEY = os.getenv("OPENAI_API_KEY")
 logger.add(LOGS / "pipeline_{time}.log")
 
 # ── BROWSER ────────────────────────────────────────────────────────────────────
@@ -123,44 +137,71 @@ def launch_browser() -> uc.Chrome:
     return driver
 
 # ── OCR SETUP ────────────────────────────────────────────────────────────────
-LOW_Y = np.array([20, 50, 50])   # HSV range for Newspapers.com yellow highlight
-HIGH_Y = np.array([40, 255, 255])
 ocr_agent = lp.TesseractAgent(languages="eng")
 
+# ── Detectron2 layout model (loaded once) ────────────────────────────
+DETECTOR = Detectron2LayoutModel(
+    config_path="lp://PubLayNet/faster_rcnn_R_50_FPN_3x/config",
+    model_path=str(MODEL_WEIGHTS),     # ← use local copy, skip re‑download
+    label_map=LABEL_MAP,
+    extra_config=["MODEL.ROI_HEADS.SCORE_THRESH_TEST", 0.8],
+)
 
-def extract_paragraph_from_pdf(pdf_path: Path) -> str:
-    """Detect yellow highlight and OCR; returns cleaned paragraph text."""
+def extract_paragraph_from_pdf(
+    pdf_path: Path,
+    full_name: str,
+    keywords: tuple[str, ...] = POLITY_WORDS,
+) -> str:
+    """
+    Return the paragraph that (a) contains the politician’s name and
+    (b) at least one political keyword; otherwise return ''.
+    """
     try:
-        pages = convert_from_path(
-            pdf_path, dpi=300, first_page=1, last_page=1,
-            poppler_path=POPPLER_PATH        # ← fixes ‘Unable to get page count’
-        )
+        page = convert_from_path(
+            pdf_path,
+            dpi=300, first_page=1, last_page=1,
+            poppler_path=POPPLER_PATH,
+        )[0]                        # PIL.Image
     except Exception as e:
         logger.error(f"pdf2image failed on {pdf_path.name}: {e}")
         return ""
 
-    img = pages[0]
-    hsv = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2HSV)
-    mask = cv2.inRange(hsv, LOW_Y, HIGH_Y)
-    if mask.sum() >= 1_000:
-        # cv2.boundingRect returns (x, y, w, h) – Pillow wants (left, upper, right, lower)
-        x, y, w, h = cv2.boundingRect(mask)
-        crop_box = (x, y, x + w, y + h)
-        crop = img.crop(crop_box)
-    else:
-        crop = img
+    img_rgb = np.array(page)[:, :, ::-1]          # PIL RGB → BGR for cv2
+    layout = DETECTOR.detect(img_rgb)
 
-    # OCR the (possibly cropped) first page
+    surname = full_name.split()[-1]
+    name_pat = re.compile(rf"\b{re.escape(surname)}\b", NAME_RE_FLAGS)
+    kw_pat   = re.compile("|".join(map(re.escape, keywords)), NAME_RE_FLAGS)
+
+    hit_blocks, hit_texts = [], []
+    for blk in layout:
+        txt = ocr_agent.detect(blk.crop_image(img_rgb))
+        if name_pat.search(txt):
+            hit_blocks.append(blk)
+            hit_texts.append(txt)
+
+    if not hit_blocks:
+        return ""                       # name never appears – reject
+
+    # ── fusionne les blocs OCR appartenant au même paragraphe ──────────────
     try:
-        with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
-            crop.save(tmp.name)
-            text = ocr_agent.detect(tmp.name)
-    except Exception as e:
-        logger.error(f"OCR failed for {pdf_path.name}: {e}")
-        return ""
+        # layoutparser ≥ 0.3.0 : méthode union() disponible
+        para = lp.Layout(hit_blocks).union()  # type: ignore[attr-defined]
+    except AttributeError:
+        # Ancienne version de layoutparser: on calcule manuellement
+        xs = [b.block.x_1 for b in hit_blocks] + [b.block.x_2 for b in hit_blocks]
+        ys = [b.block.y_1 for b in hit_blocks] + [b.block.y_2 for b in hit_blocks]
+        merged = lp.TextBlock(block=lp.Rectangle(min(xs), min(ys), max(xs), max(ys)))
+        para = [merged]
 
-    text = re.sub(r"-\n", "", text)          # de-hyphenate
-    return re.sub(r"\s+\n?", " ", text).strip()
+    full_txt = ocr_agent.detect(para[0].crop_image(img_rgb))
+    full_txt = re.sub(r"-\n", "", full_txt)        # de-hyphenate
+    full_txt = re.sub(r"\s+\n?", " ", full_txt).strip()
+
+    if kw_pat.search(full_txt):
+        return full_txt                 # good hit
+    return ""                           # name found but no political context
+
 
 # ── SCRAPING HELPERS ─────────────────────────────────────────────────────────
 
@@ -358,8 +399,13 @@ def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
                 logger.warning(f"Collected zero URLs for {row.q} – skipping target")
                 continue
 
+            attempts = 0            # reset per‑politician
             # iterate over the captured URLs
             for url in urls:
+                if attempts >= 3:                       # limit to 3 tries per politician
+                    logger.info("Reached 3 attempts – moving to next target")
+                    break
+                attempts += 1
                 if url in visited_urls:
                     continue
                 visited_urls.add(url)
@@ -408,7 +454,11 @@ def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
                         EC.element_to_be_clickable((By.CSS_SELECTOR, LINK_SEL)))
                     continue
 
-                paragraph = extract_paragraph_from_pdf(pdf_path)
+                paragraph = extract_paragraph_from_pdf(
+                    pdf_path,
+                    row.name_to_query,        # full name
+                    POLITY_WORDS,
+                )
                 if not paragraph:
                     logger.warning(f"Empty OCR for {pdf_path.name}")
                     driver.back()
@@ -427,7 +477,6 @@ def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
                     "source_pdf": pdf_path.name,
                     "paragraph": paragraph,
                 })
-                # One good paragraph is enough for this politician
                 break   # exit URL loop – outer loop will move to next person
         except InvalidSessionIdException:
             logger.warning("Chrome session lost – relaunching...")
@@ -436,59 +485,20 @@ def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
 
     if records:
         pd.DataFrame(records).to_csv(OUT_PARAGRAPHS, index=False)
-        logger.success(f"✍️  Saved {len(records)} paragraphs → {OUT_PARAGRAPHS}")
+        logger.success(f"Saved {len(records)} paragraphs -> {OUT_PARAGRAPHS}")
     else:
         logger.warning("No records extracted!")
 
-# ── GPT CLASSIFICATION (optional) ────────────────────────────────────────────
-
-def run_gpt():
-    if not OPENAI_KEY:
-        logger.error("OPENAI_API_KEY not set – skipping GPT stage")
-        return
-    if not OUT_PARAGRAPHS.exists():
-        logger.error("Paragraph file missing – run scraper first")
-        return
-
-    openai.api_key = OPENAI_KEY
-    df = pd.read_csv(OUT_PARAGRAPHS)
-    results = []
-    for _, row in tqdm(df.iterrows(), total=len(df)):
-        prompt = (
-            "You are a historian. Read the extract below (within <<<>>>).  "
-            "In ≤40 words summarise it, then answer yes/no: Does the author display "
-            "populist rhetoric? Explain in ≤30 words.\n<<<" + row.paragraph + ">>>"
-        )
-        try:
-            resp = openai.ChatCompletion.create(
-                model="gpt-4o-mini", temperature=0,
-                messages=[{"role":"user","content":prompt}]
-            )
-            content = resp.choices[0].message.content
-        except Exception as e:
-            logger.error(f"GPT error {e}")
-            content = "error"
-        results.append({**row.to_dict(), "gpt_response": content})
-
-    pd.DataFrame(results).to_csv(OUT_GPT, index=False)
-    logger.success(f"GPT results saved → {OUT_GPT}")
-
-# ── CLI ───────────────────────────────────────────────────────────────────────
+# ── RUN ───────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser(description="Newspapers.com pipeline")
-    parser.add_argument("stage", choices=["scrape","gpt"], help="Which stage to run")
-    args = parser.parse_args()
+    if not CSV_POLITICIANS.exists():
+        logger.error(f"{CSV_POLITICIANS} not found – aborting")
+        sys.exit(1)
 
-    if args.stage == "scrape":
-        if not CSV_POLITICIANS.exists():
-            logger.error(f"{CSV_POLITICIANS} not found – aborting")
-            sys.exit(1)
-        df_targets = pd.read_csv(CSV_POLITICIANS).assign(q=lambda d: '"'+d.name_to_query+'"')
-        driver = launch_browser()
-        try:
-            scrape_and_ocr(driver, df_targets)
-        finally:
-            driver.quit()
-    elif args.stage == "gpt":
-        run_gpt()
+    df_targets = pd.read_csv(CSV_POLITICIANS).assign(q=lambda d: '"'+d.name_to_query+'"')
+    driver = launch_browser()
+    try:
+        scrape_and_ocr(driver, df_targets)
+    finally:
+        driver.quit()
+
