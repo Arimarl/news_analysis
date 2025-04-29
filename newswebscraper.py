@@ -1,25 +1,17 @@
 """
-Section‑1 output  ➜  data/extracted_paragraphs.csv
-Section‑2 output  ➜  data/gpt_results.csv
-
-Designed for **macOS + Chrome**.  Requires:  
-    python 3.10+,   chromedriver 120+,   Chrome installed.
-
-A minimal `.env` only needs (for the optional GPT stage):
-    OPENAI_API_KEY="sk-..."  
+REQUIREMENTS:
+pandas numpy python-dotenv tqdm loguru
+undetected-chromedriver selenium selenium-stealth
+opencv-python-headless pdf2image pillow
+pytesseract
+torch torchvision --extra-index-url https://download.pytorch.org/whl/cpu
+detectron2 (using git-lfs)
+layoutparser[ocr]  (pulls in lp + its Detectron2 bridge)
+poppler
 """
 
-
 from __future__ import annotations
-
-# ---------------------------------------------------------------------------
-# NOTE: pdf2image uses *poppler*.  On macOS install with:
-#   brew install poppler
-# On Linux:
-#   sudo apt-get install poppler-utils
-# ---------------------------------------------------------------------------
-
-import os, time, re, tempfile, sys
+import time, re, sys
 from pathlib import Path
 from functools import wraps
 
@@ -29,7 +21,7 @@ from dotenv import load_dotenv
 from tqdm.auto import tqdm
 from loguru import logger
 
-# ── selenium & browser ────────────────────────────────────────────────────────
+# SELENIUM & BROWSER ────────────────────────────────────────────────────────
 import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -39,7 +31,7 @@ from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import InvalidSessionIdException
 from selenium_stealth import stealth
 
-# ── OCR ────────────────────────────────────────────────────────────────────────
+# OCR─────────────────────────────────────────────────────────────────────────
 import cv2
 from pdf2image import convert_from_path
 import layoutparser as lp
@@ -48,10 +40,11 @@ from layoutparser.models import Detectron2LayoutModel
 POLITY_WORDS = (
     "congress", "congressman", "congresswoman", "senate", "senator",
     "representative", "rep.", "legislature", "election", "campaign",
+    "politician", "congressperson"
 )
 NAME_RE_FLAGS = re.I | re.MULTILINE
 
-# ── DETECTRON LABEL MAP ──────────────────────────────────────────────────────
+#Detectron 2 label map ──────────────────────────────────────────────────────────
 
 LABEL_MAP = {
     0: "Text",
@@ -61,22 +54,19 @@ LABEL_MAP = {
     4: "Figure",
 }
 
-
 # ── OCR ENGINE PATH───────────────────────────────────────────────────────────
 import shutil, pytesseract
 _TESS_PATH = shutil.which("tesseract")
 if _TESS_PATH:
     pytesseract.pytesseract.tesseract_cmd = _TESS_PATH
-else:  # hard‑fail early so the pipeline doesn’t crash deep inside pytesseract
+else:  # remove crash error inside pytesseract
     logger.error(
-        "Tesseract executable not found – install it and make sure it’s in $PATH "
-        "or set TESSERACT_CMD before running the scraper."
+        "Tesseract not found"
     )
 
-# ── CONFIG & PATHS ────────────────────────────────────────────────────────────
+# CONFIG & PATHS ────────────────────────────────────────────────────────────
 load_dotenv()
 ROOT = Path(__file__).resolve().parent
-# Path to the *real* Detectron2 weights.  Make sure this matches the repo you cloned.
 MODEL_WEIGHTS = ROOT / "PubLayNet-faster_rcnn_R_50_FPN_3x" / "model_final.pth"
 DATA = ROOT / "data"; DATA.mkdir(exist_ok=True)
 RAW_PDF  = DATA / "raw_pdf" ; RAW_PDF.mkdir(exist_ok=True)
@@ -100,7 +90,7 @@ def with_wait(fn):
         try:
             return fn(*args, **kwargs)
         except TimeoutException:
-            logger.warning(f"Timeout inside {fn.__name__}")
+            logger.warning(f"Timeout in {fn.__name__}")
             return None
     return _inner
 
@@ -110,7 +100,7 @@ def launch_browser() -> uc.Chrome:
     opts.add_argument("--remote-debugging-port=9222")
     opts.add_argument("--disable-blink-features=AutomationControlled")
     opts.add_argument("--start-maximized")
-    opts.add_argument("--disable-print-preview")   # avoid DevTools disconnect on print dialog
+    opts.add_argument("--disable-print-preview")   # avoid DevTools
     opts.add_argument(f"--user-data-dir={PROFILE_DIR}")
 
     # downloads
@@ -118,7 +108,7 @@ def launch_browser() -> uc.Chrome:
         "download.default_directory": str(RAW_PDF),
         "download.prompt_for_download": False,
         "download.directory_upgrade": True,
-        "plugins.always_open_pdf_externally": True,  # force Chrome to download PDFs
+        "plugins.always_open_pdf_externally": True,  #CHROME MUST DOWNLOAD PDF
         "safebrowsing.enabled": True,
     }
     opts.add_experimental_option("prefs", prefs)
@@ -133,7 +123,7 @@ def launch_browser() -> uc.Chrome:
             renderer="Intel Iris OpenGL Engine",
             fix_hairline=True,
     )
-    logger.info("Chrome launched with persistent profile – assuming already logged in.")
+    logger.info("Chrome launched with persistent profile. (need newspapercom login)")
     return driver
 
 # ── OCR SETUP ────────────────────────────────────────────────────────────────
@@ -181,14 +171,13 @@ def extract_paragraph_from_pdf(
             hit_texts.append(txt)
 
     if not hit_blocks:
-        return ""                       # name never appears – reject
+        return ""                       # name never appears = we reject
 
-    # ── fusionne les blocs OCR appartenant au même paragraphe ──────────────
+    # Fusion OCR blocks that are in the same paragraph ───────────────────────────
     try:
-        # layoutparser ≥ 0.3.0 : méthode union() disponible
-        para = lp.Layout(hit_blocks).union()  # type: ignore[attr-defined]
+        para = lp.Layout(hit_blocks).union()
     except AttributeError:
-        # Ancienne version de layoutparser: on calcule manuellement
+        # Manually done if old version of layoutparser (I still encounter some errors sometimes)
         xs = [b.block.x_1 for b in hit_blocks] + [b.block.x_2 for b in hit_blocks]
         ys = [b.block.y_1 for b in hit_blocks] + [b.block.y_2 for b in hit_blocks]
         merged = lp.TextBlock(block=lp.Rectangle(min(xs), min(ys), max(xs), max(ys)))
@@ -199,11 +188,11 @@ def extract_paragraph_from_pdf(
     full_txt = re.sub(r"\s+\n?", " ", full_txt).strip()
 
     if kw_pat.search(full_txt):
-        return full_txt                 # good hit
-    return ""                           # name found but no political context
+        return full_txt                 #OK
+    return ""                           #If no political context
 
 
-# ── SCRAPING HELPERS ─────────────────────────────────────────────────────────
+#SCRAPING HELPERS ───────────────────────────────────────────────────────────────────────
 
 @with_wait
 def wait_file(tmpdir: Path, suffix: str, timeout: float = 90) -> Path:
@@ -218,7 +207,7 @@ def wait_file(tmpdir: Path, suffix: str, timeout: float = 90) -> Path:
         if done:
             latest = max(done, key=lambda p: p.stat().st_mtime)
             size = latest.stat().st_size
-            if size and size == last_size:            # stable size ➜ finished
+            if size and size == last_size:            # Size check (to remove)
                 return latest
             last_size = size
         time.sleep(0.5)
@@ -233,10 +222,8 @@ def download_current_page_pdf(driver: uc.Chrome) -> Path | None:
 
         1. Click the “Print / Download” top‑bar button (matched on visible text).
         2. In the ensuing dialog click the hidden <a><div id="entireP">…</div></a>.
-        3. Click the “Save as PDF*” button.
-        4. Wait for a *.pdf to appear in RAW_PDF and return its path.
-
-    Returns None if anything fails.
+        3. Click the “Save as PDF” button.
+        4. Wait for a .pdf to appear in RAW_PDF and return its path.
     """
     # ── Pre‑step: close details side‑pane if it’s covering the viewer ─────────
     try:
@@ -252,7 +239,7 @@ def download_current_page_pdf(driver: uc.Chrome) -> Path | None:
             driver.execute_script("arguments[0].click();", close_btn)
             time.sleep(0.4)  # brief pause for the pane to animate away
     except Exception:
-        # No side‑pane visible → nothing to do
+        # No side‑pane visible = OK nothing to do
         pass
     # ── Fast‑path: we might already be in the print dialog ────────────────
     try:
@@ -267,7 +254,7 @@ def download_current_page_pdf(driver: uc.Chrome) -> Path | None:
             logger.info(f"Downloaded {pdf.name} (fast‑path)")
             return pdf
     except TimeoutException:
-        # Dialog not open yet → fall back to the normal flow below.
+        # Dialog not open yet = fall back to normal flow below.
         pass
     try:
         # ── Part 1: Top‑bar “Print / Download” button ────────────────────────
@@ -278,7 +265,7 @@ def download_current_page_pdf(driver: uc.Chrome) -> Path | None:
             None
         )
         if not target:
-            logger.warning("No visible Print/Download button")
+            logger.warning("No Print/Download button")
             return None
         driver.execute_script("arguments[0].click();", target)
 
@@ -325,7 +312,7 @@ def download_current_page_pdf(driver: uc.Chrome) -> Path | None:
                 )
             except TimeoutException:
                 logger.warning(
-                    "'Entire/Full Page' control not found – print dialog failed to load"
+                    "'Entire/Full Page' control not found"
                 )
                 return None
 
@@ -341,7 +328,7 @@ def download_current_page_pdf(driver: uc.Chrome) -> Path | None:
                 )
             )
         except TimeoutException:
-            logger.warning("'Save as PDF' button not found – preview failed to load")
+            logger.warning("'Save as PDF' not found")
             return None
 
         driver.execute_script("arguments[0].click();", pdf_button)
@@ -361,7 +348,7 @@ def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
     records: list[dict] = []
     visited_urls: set[str] = set()
     for row in tqdm(df_targets.itertuples(), total=len(df_targets)):
-        got_paragraph = False      # stop after first successful OCR for this politician
+        got_paragraph = False      # stop after FIRST successful OCR for this politician
         try:
             search_url = (
                 "https://www.newspapers.com/search/results/?query="
@@ -371,7 +358,7 @@ def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
             # give React a moment to render the first result thumbnails before we start waiting
             time.sleep(1.2)
 
-            # ── wait for *a real* clickable result link ────────────────────────
+            #wait for a real clickable result link ────────────────────────
             LINK_SEL = (
                 "a[href*='/clip/'],"
                 "a[href*='/newspage/'],"
@@ -387,7 +374,7 @@ def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
                 continue
 
             if first_link is None:
-                # the helper may have swallowed a TimeoutException – skip safely
+                # the helper may have swallowed a TimeoutException = skip
                 logger.warning(f"No clickable results for {row.q}")
                 continue
 
@@ -396,23 +383,23 @@ def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
             urls = [el.get_attribute("href") for el in elements if el.get_attribute("href")]
 
             if not urls:
-                logger.warning(f"Collected zero URLs for {row.q} – skipping target")
+                logger.warning(f"Zero URLs for {row.q} – skipping")
                 continue
 
-            attempts = 0            # reset per‑politician
+            attempts = 0            # reset count of attemps
             # iterate over the captured URLs
             for url in urls:
-                if attempts >= 3:                       # limit to 3 tries per politician
-                    logger.info("Reached 3 attempts – moving to next target")
+                if attempts >= 3:                       # 3 tries max per person
+                    logger.info("Reached 3 attempts = NEXT person")
                     break
                 attempts += 1
                 if url in visited_urls:
                     continue
                 visited_urls.add(url)
                 driver.get(url)
-                driver.execute_script("window.scrollBy(0, 1)")  # poke lazy loader
+                driver.execute_script("window.scrollBy(0, 1)")  #poke lazy loader
 
-                # optional: refresh if pay‑wall / upsell overlay injects an iframe
+                # refresh if pay‑wall / upsell overlay injects an iframe
                 if driver.find_elements(By.CSS_SELECTOR, "iframe[src*='offer']"):
                     logger.info("offer overlay → refresh")
                     driver.refresh()
@@ -429,7 +416,7 @@ def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
                              "button#btn-print, button[aria-label*='Print']"))
                     )
                 except TimeoutException:
-                    logger.warning("Article viewer did not load – skipping card")
+                    logger.warning("Article viewer did not load = Skipping card")
                     driver.back()
                     WebDriverWait(
                         driver,
@@ -479,7 +466,7 @@ def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
                 })
                 break   # exit URL loop – outer loop will move to next person
         except InvalidSessionIdException:
-            logger.warning("Chrome session lost – relaunching...")
+            logger.warning("Chrome session lost – relaunching")
             driver = launch_browser()
             continue
 
@@ -487,12 +474,12 @@ def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
         pd.DataFrame(records).to_csv(OUT_PARAGRAPHS, index=False)
         logger.success(f"Saved {len(records)} paragraphs -> {OUT_PARAGRAPHS}")
     else:
-        logger.warning("No records extracted!")
+        logger.warning("No records extracted")
 
 # ── RUN ───────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     if not CSV_POLITICIANS.exists():
-        logger.error(f"{CSV_POLITICIANS} not found – aborting")
+        logger.error(f"{CSV_POLITICIANS} not found")
         sys.exit(1)
 
     df_targets = pd.read_csv(CSV_POLITICIANS).assign(q=lambda d: '"'+d.name_to_query+'"')
