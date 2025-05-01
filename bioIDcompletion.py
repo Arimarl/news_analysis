@@ -1,19 +1,4 @@
-"""bioguide_scraper.py
 
-Scrape birth and death years for a list of U.S. Congress members from the
-Biographical Directory of the United States Congress (bioguide.congress.gov).
-
-Input  : CSV with columns  bioguide_id, name_to_query, state_to_query
-Output : CSV with columns bioguide_id, name_to_query, state_to_query, born, died
-
-This version re‑uses the **Chrome launcher with automatic version detection**
-already present in *newswebscraper.py* so you never hit the ChromeDriver
-mismatch error again.  It relies on **undetected‑chromedriver** (uc) with the
-same stealth settings.
-
-Requirements (add to your environment if missing):
-    pandas undetected-chromedriver selenium-stealth tqdm loguru
-"""
 from __future__ import annotations
 
 import re
