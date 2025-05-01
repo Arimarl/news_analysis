@@ -1,21 +1,21 @@
-bioguide_id,name_to_query,state_to_query,bioname_dwnom,first_congress,last_congress,state_dwnom_1,state_dwnom_2,last_name,first_name,middle_name,suffix,nickname,full_name,birthday,gender,type,state,district,senate_class,party,url,address,phone,contact_form,rss_url,twitter,twitter_id,facebook,youtube,youtube_id,mastodon,thomas_id,opensecrets_id,lis_id,fec_ids,cspan_id,govtrack_id,votesmart_id,ballotpedia_id,washington_post_id,icpsr,wikipedia_id,combined_name_govtrack,_merge
-L000565,Dave Loebsack,IA,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-K000342,Stanley H. Kunz,IL,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-L000355,Charles E. Littlefield,ME,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-S000708,James Z. Spearing,LA,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-V000100,Beverly M. Vincent,KY,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-W000752,George C. Wortley,NY,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-W000487,Alpheus S. Williams,MI,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-R000547,J. T. Rutherford,TX,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-H001035,Katherine Harris,FL,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-T000149,John R. Thayer,MA,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-R000402,Sion Hart Rogers,NC,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-T000436,J. Russell Tuten,GA,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-J000050,Hinton James (representative),NC,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-S001145,Jan Schakowsky,IL,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-O000082,Archibald E. Olpp,NJ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-L000043,Nick Lampson,TX,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-S000170,George Cromwell Scott,IA,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-O000072,Frank A. Oliver,NY,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-M000466,Paul McHale,PA,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-N000143,Anne Northup,KY,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+bioguide_id,name_to_query,state_to_query,born,died
+L000340,John Charles Linthicum,MD,1911,1932
+D000310,William Worth Dickerson,KY,1851,1923
+L000250,John Vandling Lesher,PA,1866,1932
+P000163,George Alexander Pearre,MD,1860,1923
+C000768,Oren S. Copeland,NE,1887,1958
+S000099,Joseph D. Sayers,TX,1841,1929
+W000040,Alfred M. Waldron,PA,1865,1952
+D000503,William J. Driver,AR,1873,1948
+F000126,Sidney A. Fine,NY,1903,1982
+F000042,Jacob Sloat Fassett,NY,1853,1924
+H000681,Walter O. Hoffecker,DE,1854,1934
+P000569,Graham B. Purcell Jr.,TX,1919,2011
+L000281,Elijah B. Lewis,GA,1854,1920
+F000424,Richard Fulton,TN,1927,2018
+M000915,R. Walton Moore,VA,1859,1941
+B001148,Clarence G. Burton,VA,1886,1982
+L000334,William W. Link,IL,1884,1950
+M000756,Thomas B. Miller,PA,1896,1976
+B000397,Maecenas Eason Benton,MO,1848,1924
+L000489,Ralph F. Lozier,MO,1866,1945

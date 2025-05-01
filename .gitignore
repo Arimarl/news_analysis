@@ -11,6 +11,7 @@ logs/
 *.jpeg
 *.jpg
 *.csv
+*.env
 
 # macOS
 .DS_Store

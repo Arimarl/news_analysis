@@ -4,6 +4,7 @@ pandas numpy python-dotenv tqdm loguru
 undetected-chromedriver selenium selenium-stealth
 opencv-python-headless pdf2image pillow
 pytesseract
+rapidfuzz
 torch torchvision --extra-index-url https://download.pytorch.org/whl/cpu
 detectron2 (using git-lfs)
 layoutparser[ocr]  (pulls in lp + its Detectron2 bridge)
@@ -14,11 +15,13 @@ from __future__ import annotations
 import time, re, sys
 from pathlib import Path
 from functools import wraps
-
+from rapidfuzz.distance import Levenshtein as _levenshtein_distance
 import pandas as pd
-import numpy as np
 from dotenv import load_dotenv
+import numpy as np
+from urllib.parse import quote_plus
 from tqdm.auto import tqdm
+from collections import Counter
 from loguru import logger
 
 # SELENIUM & BROWSER ────────────────────────────────────────────────────────
@@ -37,11 +40,59 @@ from pdf2image import convert_from_path
 import layoutparser as lp
 from layoutparser.models import Detectron2LayoutModel
 
+
 POLITY_WORDS = (
     "congress", "congressman", "congresswoman", "senate", "senator",
     "representative", "rep.", "legislature", "election", "campaign",
-    "politician", "congressperson"
+    "politician", "congressperson", "interview", "politics", "speech"
 )
+
+def contains_polity_keyword(text: str,
+                            keywords: tuple[str, ...],
+                            max_dist: int = 6) -> bool:
+    """
+    True iff *text* contains any word that matches one of *keywords*
+    within *max_dist* Levenshtein edits (to cope with OCR noise).
+    A fast exact‑substring test is tried first; failing that, each
+    alphabetic token ≥4 chars is compared fuzzily.
+    """
+    text_lower = text.lower()
+    if any(kw in text_lower for kw in keywords):
+        return True                     # exact hit – fast path
+    tokens = re.findall(r"[a-z]{4,}", text_lower)
+    for tok in tokens:
+        for kw in keywords:
+            # cheap length filter then fuzzy distance
+            if abs(len(tok) - len(kw)) <= max_dist and \
+               _levenshtein_distance(tok, kw) <= max_dist:
+                return True
+    return False
+
+# ── DATE RANGE HELPER ────────────────────────────────────────────────────
+def _year_range(born: float | int | str | None, died: float | int | str | None) -> str:
+   #Format if search is YYYY-YYYY
+    try:
+        y1 = int(str(born)[:4])
+        y2 = int(str(died)[:4]) - 1
+        if y1 <= 0 or y2 < y1:
+            return ""
+        return f"{y1}-{y2}"
+    except (TypeError, ValueError):
+        return ""
+
+# single‑year parser (first 4 consecutive digits)
+def _year(val) -> int | None:
+    try:
+        y = int(re.findall(r"\d{4}", str(val))[0])
+        return y if y > 0 else None
+    except (IndexError, ValueError, TypeError):
+        return None
+
+# Helper: death year minus one (returns None if year missing)
+def _death_year_minus1(val) -> int | None:
+    y = _year(val)
+    return y - 1 if y else None
+
 NAME_RE_FLAGS = re.I | re.MULTILINE
 
 #Detectron 2 label map ──────────────────────────────────────────────────────────
@@ -64,6 +115,14 @@ else:  # remove crash error inside pytesseract
         "Tesseract not found"
     )
 
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Runtime switches
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# If STRICT_FILTER  False = NO CHECK ON 
+STRICT_FILTER: bool = True
+STATS: Counter = Counter()       # collect rejection reasons
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 # CONFIG & PATHS ────────────────────────────────────────────────────────────
 load_dotenv()
 ROOT = Path(__file__).resolve().parent
@@ -82,6 +141,34 @@ logger.add(LOGS / "pipeline_{time}.log")
 # ── BROWSER ────────────────────────────────────────────────────────────────────
 PROFILE_DIR = Path("/tmp/chrome-newspapers-profile")  # persistent login profile
 
+# -----------------------------------------------------------------------
+# Browser version helper - in case of Chrome version issue
+# -----------------------------------------------------------------------
+import platform, subprocess, shutil
+
+def _detect_chrome_major() -> int | None:
+    """
+    Return the locally installed Chrome major version (e.g. 135) or None.
+    Works on macOS, Linux, Windows; relies on chrome executable being on disk.
+    """
+    candidates: list[str] = []
+    sys_plat = platform.system()
+    if sys_plat == "Darwin":
+        candidates = ["/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"]
+    elif sys_plat == "Linux":
+        candidates = [shutil.which(cmd) for cmd in ("google-chrome", "chromium", "chromium-browser")]
+    elif sys_plat == "Windows":
+        candidates = [r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+                      r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"]
+    for exe in filter(None, candidates):
+        try:
+            out = subprocess.check_output([exe, "--version"], stderr=subprocess.DEVNULL).decode()
+            m = re.search(r"(\d+)\.", out)
+            if m:
+                return int(m.group(1))
+        except Exception:
+            continue
+    return None
 
 def with_wait(fn):
     """Decorator to catch TimeoutException and log a warning instead of blowing up."""
@@ -113,7 +200,8 @@ def launch_browser() -> uc.Chrome:
     }
     opts.add_experimental_option("prefs", prefs)
 
-    driver = uc.Chrome(options=opts, version_main=None)
+    local_major = _detect_chrome_major()
+    driver = uc.Chrome(options=opts, version_main=local_major)
 
     stealth(driver,
             languages=["en-US", "en"],
@@ -141,6 +229,7 @@ def extract_paragraph_from_pdf(
     pdf_path: Path,
     full_name: str,
     keywords: tuple[str, ...] = POLITY_WORDS,
+    strict: bool = STRICT_FILTER,
 ) -> str:
     """
     Return the paragraph that (a) contains the politician’s name and
@@ -159,6 +248,10 @@ def extract_paragraph_from_pdf(
     img_rgb = np.array(page)[:, :, ::-1]          # PIL RGB → BGR for cv2
     layout = DETECTOR.detect(img_rgb)
 
+    # if OCR blanket fallback ever needed
+    def _ocr_full_page() -> str:
+        return ocr_agent.detect(img_rgb)
+
     surname = full_name.split()[-1]
     name_pat = re.compile(rf"\b{re.escape(surname)}\b", NAME_RE_FLAGS)
     kw_pat   = re.compile("|".join(map(re.escape, keywords)), NAME_RE_FLAGS)
@@ -171,7 +264,8 @@ def extract_paragraph_from_pdf(
             hit_texts.append(txt)
 
     if not hit_blocks:
-        return ""                       # name never appears = we reject
+        STATS["no_name"] += 1
+        return "" if strict else _ocr_full_page()
 
     # Fusion OCR blocks that are in the same paragraph ───────────────────────────
     try:
@@ -187,9 +281,11 @@ def extract_paragraph_from_pdf(
     full_txt = re.sub(r"-\n", "", full_txt)        # de-hyphenate
     full_txt = re.sub(r"\s+\n?", " ", full_txt).strip()
 
-    if kw_pat.search(full_txt):
-        return full_txt                 #OK
-    return ""                           #If no political context
+    # Accept paragraph if an exact OR fuzzy keyword match is found
+    if kw_pat.search(full_txt) or contains_polity_keyword(full_txt, keywords):
+        return full_txt                 # OK – keep the paragraph
+    STATS["no_keyword"] += 1
+    return "" if strict else full_txt
 
 
 #SCRAPING HELPERS ───────────────────────────────────────────────────────────────────────
@@ -350,11 +446,16 @@ def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
     for row in tqdm(df_targets.itertuples(), total=len(df_targets)):
         got_paragraph = False      # stop after FIRST successful OCR for this politician
         try:
-            search_url = (
-                "https://www.newspapers.com/search/results/?query="
-                f"{row.q}&state={row.state_to_query}"
-            )
+            base = "https://www.newspapers.com/search/results/?"
+            parts = [f"keyword={quote_plus(row.q)}"]
+            if isinstance(row.state_to_query, str) and row.state_to_query.strip():
+                parts.append(f"state={row.state_to_query}")
+            if row.date_start and row.date_end:
+                parts.append(f"date-start={row.date_start}")
+                parts.append(f"date-end={row.date_end}")
+            search_url = base + "&".join(parts)
             driver.get(search_url)
+            logger.debug(f"Search URL: {search_url}")
             # give React a moment to render the first result thumbnails before we start waiting
             time.sleep(1.2)
 
@@ -445,6 +546,7 @@ def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
                     pdf_path,
                     row.name_to_query,        # full name
                     POLITY_WORDS,
+                    STRICT_FILTER,
                 )
                 if not paragraph:
                     logger.warning(f"Empty OCR for {pdf_path.name}")
@@ -470,6 +572,8 @@ def scrape_and_ocr(driver: uc.Chrome, df_targets: pd.DataFrame):
             driver = launch_browser()
             continue
 
+    if STATS:
+        logger.info(f"Rejection stats: {dict(STATS)}")
     if records:
         pd.DataFrame(records).to_csv(OUT_PARAGRAPHS, index=False)
         logger.success(f"Saved {len(records)} paragraphs -> {OUT_PARAGRAPHS}")
@@ -482,7 +586,14 @@ if __name__ == "__main__":
         logger.error(f"{CSV_POLITICIANS} not found")
         sys.exit(1)
 
-    df_targets = pd.read_csv(CSV_POLITICIANS).assign(q=lambda d: '"'+d.name_to_query+'"')
+    df_targets = (
+        pd.read_csv(CSV_POLITICIANS)
+          .assign(
+              q=lambda d: '"' + d.name_to_query + '"',
+              date_start=lambda d: d.born.apply(_year),
+              date_end=lambda d: d.died.apply(_death_year_minus1)
+          )
+    )
     driver = launch_browser()
     try:
         scrape_and_ocr(driver, df_targets)

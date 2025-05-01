@@ -7,27 +7,30 @@ import pandas as pd
 import numpy as np
 from dotenv import load_dotenv
 from tqdm.auto import tqdm
-from langchain_openai import ChatOpenAI          # pip install langchain‑openai
+from langchain_openai import ChatOpenAI 
 from langchain.prompts import PromptTemplate
 import tiktoken
 
-# --------------------------------------------------------------------------------------
 # Configuration
 # --------------------------------------------------------------------------------------
-HERE          = Path(__file__).resolve().parent
-DATA_DIR      = HERE
-PARAGRAPH_CSV = DATA_DIR / "extracted_paragraphs.csv"
-OUT_CSV       = DATA_DIR / "paragraph_results.csv"
+HERE                 = Path(__file__).resolve().parent
+DATA_DIR             = HERE
+PARAGRAPH_CSV        = DATA_DIR / "extracted_paragraphs.csv"
+OUT_CSV              = DATA_DIR / "paragraph_results.csv"
 
-MODEL_NAME              = "gpt-3.5-turbo"
-TEMPERATURE             = 0
-# Budget-conscious variant: using GPT-3.5-turbo ("4o mini")
-MAX_ALLOWED_TOKENS_CTX  = 4_096          # sanity limit so we do not exceed context window
-RATE_LIMIT_SECONDS      = 1.2            # naïve sleep to stay clear of OpenAI rate‑limits
+MODEL_NAME           = "gpt-3.5-turbo"
+TEMPERATURE          = 0
+MAX_ALLOWED_TOKENS_CTX = 4_096       # keep within context window
+RATE_LIMIT_SECONDS   = 1.2           # simple rate‑limit buffer
 
-# --------------------------------------------------------------------------------------
+PROMPT_TEMPLATE = (
+    "Read the paragraph. Decide if {candidate} supports {domain}, opposes it, or if the stance is unclear. "
+    "Respond **exactly** as: 'YES || reason', 'NO || reason', or 'NA'. "
+    "Use only the paragraph.\n\nParagraph:\n{paragraph}"
+)
+
 # Helpers
-# --------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------
 def num_tokens(text: str, model: str = MODEL_NAME) -> int:
     enc = tiktoken.encoding_for_model(model)
     return len(enc.encode(text))
@@ -57,9 +60,8 @@ def parse_model_output(raw: str) -> list[str]:
     return pieces[1:needed]     # drop leading empty slot
 
 
-# --------------------------------------------------------------------------------------
 # Main classification loop
-# --------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------
 def main() -> None:
     load_dotenv()
     api_key = os.getenv("OPENAI_API_KEY")
@@ -86,12 +88,10 @@ def main() -> None:
     for idx, row in tqdm(df.iterrows(), total=df.shape[0], desc="Classifying paragraphs"):
         domain_results = []
         for domain in domains:
-            prompt = (
-                f"You are a political scientist. Using the news article paragraph given, determine the views on {domain.replace('_', ' ')} "
-                f"of the candidate {row['politician']} mentioned in the text? "
-                f"If the paragraph does not make the candidate’s opinion clear, respond only with 'NA' and nothing else. "
-                f"Limit your answer to 300 tokens. Begin your answer with a simple yes or no to the question of whether the candidate was in support of this idea.\n\n"
-                f"Paragraph: {row['paragraph']}"
+            prompt = PROMPT_TEMPLATE.format(
+                domain=domain.replace('_', ' '),
+                candidate=row["politician"],
+                paragraph=row["paragraph"]
             )
 
             if num_tokens(prompt) > MAX_ALLOWED_TOKENS_CTX:
@@ -100,9 +100,17 @@ def main() -> None:
                 prompt = prompt.replace(row["paragraph"], paragraph_cut)
 
             response = llm.invoke(prompt)
-            answer = response.content.strip().split("\n", 1)
-            yn = answer[0].strip() if answer else "unknown"
-            explanation = answer[1].strip() if len(answer) > 1 and answer[0].strip().upper() != "NA" else "NA"
+            raw = response.content.strip()
+            if raw == "NA":
+                yn, explanation = "NA", "NA"
+            elif "||" in raw:
+                yn, explanation = [p.strip() for p in raw.split("||", 1)]
+            else:
+                # Fallback: try first word as Y/N, rest as explanation
+                parts = raw.split(None, 1)
+                yn = parts[0].strip() if parts else "unknown"
+                explanation = parts[1].strip() if len(parts) > 1 and yn.upper() != "NA" else "NA"
+            yn = yn.lower()
             domain_results += [yn, explanation]
             time.sleep(RATE_LIMIT_SECONDS)
 
